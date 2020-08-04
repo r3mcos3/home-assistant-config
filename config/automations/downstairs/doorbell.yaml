@@ -3,7 +3,7 @@
   alias: Downstairs - Doorbell Light
   trigger:
     - platform: state
-      entity_id: 
+      entity_id:
         - binary_sensor.frontdoor_ding
     - platform: homeassistant
       event: start

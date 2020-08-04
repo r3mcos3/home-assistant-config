@@ -3,7 +3,7 @@
   alias: Downstairs - Basement Light
   trigger:
     platform: state
-    entity_id: 
+    entity_id:
       - binary_sensor.basement_motion
   mode: restart
   action:

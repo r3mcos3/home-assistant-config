@@ -1,3 +1,4 @@
+---
 - id: system_default_theme
   alias: System - Set Default Theme
   trigger:

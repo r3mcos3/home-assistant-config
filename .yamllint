@@ -5,6 +5,8 @@ ignore: |
   config/automations.yaml
   config/scenes.yaml
   config/themes/
+  config/scripts.yaml
+  config/customize.yaml
 rules:
   braces:
     level: error

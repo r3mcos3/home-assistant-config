@@ -12,7 +12,7 @@
         - binary_sensor.backdoor
   action:
     - choose:
-        - conditions: 
+        - conditions:
             - condition: state
               entity_id: binary_sensor.frontdoor
               state: "off"
@@ -22,7 +22,7 @@
                 entity_id: climate.woonkamer
                 hvac_mode: heat
     - choose:
-        - conditions: 
+        - conditions:
             - condition: state
               entity_id: binary_sensor.backdoor
               state: "off"

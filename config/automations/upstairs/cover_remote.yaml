@@ -10,8 +10,6 @@
   action:
     - service: cover.open_cover
       entity_id: cover.main_bedroom
-
-
 - id: cf4c82c2-9503-4c3c-a119-dd30c5280c63
   alias: Remote - Cover Down
   trigger:

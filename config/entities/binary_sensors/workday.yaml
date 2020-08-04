@@ -10,4 +10,4 @@ platform: workday
 name: workday
 country: NL
 workdays: [mon, tue, wed, thu, fri]
-excludes: [sat, sun] 
+excludes: [sat, sun]

@@ -3,7 +3,7 @@
   alias: Upstairs - Force Nightlight
   trigger:
     platform: state
-    entity_id: 
+    entity_id:
       - light.wled_santi
       - light.wled_elyza
   action:
