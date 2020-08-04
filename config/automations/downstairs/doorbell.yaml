@@ -1,0 +1,28 @@
+---
+- id: downstairs_doorbell_light
+  alias: Downstairs - Doorbell Light
+  trigger:
+    - platform: state
+      entity_id: 
+        - binary_sensor.frontdoor_ding
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
+  mode: restart
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.frontdoor_ding
+              state: "on"
+            - condition: state
+              entity_id: sun.sun
+              state: below_horizon
+          sequence:
+            - service: light.turn_on
+              entity_id: light.hallway
+      default:
+        - delay: 00:05:00
+        - service: light.turn_off
+          entity_id: light.hallway

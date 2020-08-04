@@ -1,0 +1,4 @@
+---
+- platform: buienradar
+  name: 'Gilze Rijen'
+  forecast: true

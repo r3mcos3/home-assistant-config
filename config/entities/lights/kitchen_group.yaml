@@ -1,0 +1,6 @@
+---
+- platform: group
+  name: Kitchen Group
+  entities:
+    - light.kitchen
+    - light.kitchen_spots

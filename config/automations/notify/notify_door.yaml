@@ -1,0 +1,25 @@
+---
+- id: 672e7ec4-c7f9-4eed-b421-45bee5913d21
+  alias: Notify - Door Open
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.frontdoor
+      - binary_sensor.backdoor
+    to: "on"
+  condition:
+    - condition: state
+      entity_id: 'person.remco'
+      state: 'not_home'
+    - condition: state
+      entity_id: 'person.annemarie'
+      state: 'not_home'
+    - condition: state
+      entity_id: 'binary_sensor.guest_mode'
+      state: 'off'
+  action:
+    service: notify.all
+    data_template:
+      title: "Door Open!"
+      message: >-
+        "{{ trigger.to_state.attributes.friendly_name }} is open, but nobody home!!"

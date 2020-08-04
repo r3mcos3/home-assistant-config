@@ -1,0 +1,24 @@
+---
+- id: c6824e6f-925c-4686-968f-21aaf9328c31
+  alias: Notify - HA Update Available
+  trigger:
+    platform: state
+    entity_id: sensor.stable_version
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        title: New Home Assistant Release
+        message: 'Home Assistant {{ states(''sensor.stable_version'') }} is now available.'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.beta_week
+- id: notify_breaking_changes
+  alias: Notify Breaking Changes
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.potential_breaking_changes
+    above: 1
+  action:
+    service: notify.mobile_app_in2023
+    data_template:
+      title: "Don't Update Yet!!!"
+      message: "Please check breaking changes, Otherwise HA won't boot!!"

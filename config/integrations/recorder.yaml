@@ -1,0 +1,9 @@
+---
+recorder:
+  db_url: !secret mariadb_url
+  purge_keep_days: 14
+  auto_purge: true
+  exclude:
+    domains:
+      - automation
+      - media_player

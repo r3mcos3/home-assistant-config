@@ -1,0 +1,23 @@
+- id: system_default_theme
+  alias: System - Set Default Theme
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: sun
+      event: sunrise
+    - platform: sun
+      event: sunset
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: "below_horizon"
+          sequence:
+            - service: frontend.set_theme
+              data:
+                name: "Google Dark Theme"
+      default:
+        - service: frontend.set_theme
+          data:
+            name: "Google Light Theme"

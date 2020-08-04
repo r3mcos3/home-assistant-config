@@ -1,0 +1,12 @@
+---
+- platform: group
+  name: Upstairs Group
+  entities:
+    - light.main_bedroom
+    - light.bedroom_santi
+    - light.bedroom_elyza
+    - light.wled_elyza
+    - light.wled_santi
+    - light.attic
+    - light.nightlight_santi
+    - light.nightlight_elyza

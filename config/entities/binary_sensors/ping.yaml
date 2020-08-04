@@ -1,0 +1,5 @@
+---
+- platform: ping
+  name: Readynas
+  host: !secret ping_readynas
+  scan_interval: 60

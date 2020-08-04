@@ -1,0 +1,21 @@
+---
+- id: 2762da94-02ea-483a-9d8c-6c3419f8cd8d
+  alias: Notify - Config Backup Done
+  trigger:
+    platform: state
+    entity_id: sensor.config_backup_log
+  action:
+    service: notify.mobile_app_in2023
+    data:
+      title: A Backup Off The Config Is Made!!
+      message: "Backup Made On {{states('sensor.config_backup_log')}}"
+- id: d1b15a29-e781-4a01-9a58-8ef382f3f13a
+  alias: Notify - Snapshot Are Backuped!
+  trigger:
+    platform: state
+    entity_id: sensor.ha_backup_log
+  action:
+    service: notify.mobile_app_in2023
+    data:
+      title: A Backup Off The Snapshots Is Done!!
+      message: "Backup Made On {{states('sensor.ha_backup_log')}}"

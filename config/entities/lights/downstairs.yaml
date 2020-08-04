@@ -1,0 +1,8 @@
+---
+- platform: group
+  name: Downstairs Group
+  entities:
+    - light.closet_light
+    - light.kitchen
+    - light.frontdoor
+    - light.toilet_light

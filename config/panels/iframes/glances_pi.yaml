@@ -1,0 +1,5 @@
+---
+pi:
+  title: 'PI'
+  icon: mdi:raspberry-pi
+  url: 'http://10.10.50.88:61208'

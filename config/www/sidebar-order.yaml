@@ -1,0 +1,6 @@
+---
+order:
+  - item: map
+    hide: true
+  - item: hacs
+    bottom: true

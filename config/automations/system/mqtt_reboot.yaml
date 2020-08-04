@@ -1,0 +1,11 @@
+---
+- id: d7040655-c75a-4528-a254-f499a73be6a4
+  alias: System - Mqtt Reboot
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: mqtt.publish
+    data:
+      topic: cmnd/tasmotas/state
+      payload: ''

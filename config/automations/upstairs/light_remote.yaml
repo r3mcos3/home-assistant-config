@@ -1,0 +1,48 @@
+---
+- id: f7044db6-5d47-4c35-a3db-842f82b93bc2
+  alias: Remote - Main Bedroom
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "d0:cf:5e:ff:fe:ce:9f:b6"
+      command: "off"
+  action:
+    - service: light.toggle
+      entity_id: light.main_bedroom
+- id: e8da66d8-4630-470a-8b81-ad6c53d446f1
+  alias: Remote - Elyza Room
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "d0:cf:5e:ff:fe:ce:9f:b6"
+      command: "on"
+  action:
+    - service: light.toggle
+      entity_id:
+        - light.bedroom_elyza
+- id: 842c1d65-f324-49f8-bb69-549a0ef4449c
+  alias: Remote - Elyza Wled
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "d0:cf:5e:ff:fe:ce:9f:b6"
+      command: "move_with_on_off"
+  action:
+    - service: homeassistant.toggle
+      entity_id:
+        - light.wled_elyza
+        - switch.wled_elyza_nightlight
+- id: 3f9d8685-80d8-4142-bbba-39cfd2d75c89
+  alias: Remote - Attic
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: "d0:cf:5e:ff:fe:ce:9f:b6"
+      command: "move"
+  action:
+    - service: light.toggle
+      entity_id: light.attic

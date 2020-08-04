@@ -1,0 +1,16 @@
+---
+- id: 888091b7-5f35-46f3-9eab-723417825d77
+  alias: Notify - New Beta Version Available
+  trigger:
+    platform: state
+    entity_id: sensor.beta_version
+  condition:
+    condition: state
+    entity_id: input_boolean.beta_week
+    state: 'on'
+  action:
+    service: notify.mobile_app_in2023
+    data_template:
+      title: "New Home Assistant Beta Release"
+      message: >-
+        "Home Assistant Beta {{states('sensor.beta_version')}} Is Now Available"

@@ -1,0 +1,8 @@
+---
+
+notify:
+  - name: all
+    platform: group
+    services:
+      - service: mobile_app_iphone_van_marietje
+      - service: mobile_app_in2023

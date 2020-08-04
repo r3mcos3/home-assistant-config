@@ -1,0 +1,6 @@
+---
+!secret yeelight_keuken:
+  name: Kitchen
+  use_music_mode: false
+  save_on_change: false
+  model: color1

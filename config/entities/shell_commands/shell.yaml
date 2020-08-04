@@ -1,0 +1,3 @@
+---
+ha_config_backup: ssh -i /config/ssh/id_rsa -o 'StrictHostKeyChecking=no' remco@10.10.20.12 '~/ha_config_backup'
+ha_backup: ssh -i /config/ssh/id_rsa -o 'StrictHostKeyChecking=no' remco@10.10.20.12 '~/backup'

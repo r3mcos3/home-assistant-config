@@ -1,0 +1,26 @@
+---
+- id: 76701145-7238-49cc-b7a3-e6d287597103
+  alias: System -  Hacs Update
+  trigger:
+    platform: state
+    entity_id: sensor.hacs
+  condition:
+    - condition: template
+      value_template: "{{ states(trigger.entity_id) != 'unknown'}}"
+    - condition: template
+      value_template: "{{ (states(trigger.entity_id) | float) != 0}}"
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: Updates pending in HACS
+        message: >-
+          {% for repo in state_attr(trigger.entity_id, 'repositories') %}
+            **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
+          {% endfor %}
+    - service: notify.mobile_app_in2023
+      data_template:
+        title: Updates pending in HACS
+        message: >-
+          {% for repo in state_attr(trigger.entity_id, 'repositories') %}
+            **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
+          {% endfor %}

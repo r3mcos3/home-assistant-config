@@ -1,0 +1,40 @@
+---
+- platform: command_line
+  name: Installed Version
+  command: "cat /config/.HA_VERSION"
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/stable.json
+  name: Stable Version
+  value_template: "{{ value_json.homeassistant.default }}"
+  scan_interval: 3600
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/beta.json
+  name: Beta Version
+  value_template: "{{ value_json.homeassistant.default }}"
+  scan_interval: 3600
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/stable.json
+  name: HassOs Version
+  value_template: "{{ value_json.hassos.ova }}"
+  scan_interval: 3600
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/beta.json
+  name: HassOs Beta Version
+  value_template: "{{ value_json.hassos.ova }}"
+  scan_interval: 3600
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/beta.json
+  name: Beta Supervisor
+  value_template: "{{ value_json.supervisor }}"
+  scan_interval: 3600
+
+- platform: rest
+  resource: https://s3.amazonaws.com/hassio-version/stable.json
+  name: Installed Supervisor
+  value_template: "{{ value_json.supervisor }}"
+  scan_interval: 3600

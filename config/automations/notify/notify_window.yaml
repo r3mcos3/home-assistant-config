@@ -1,0 +1,27 @@
+---
+- id: 4ac52c58-0884-4670-ae9c-07d3b27105dc
+  alias: Notify - Window Open
+  trigger:
+    platform: state
+    entity_id:
+      - binary_sensor.bathroom_window
+      - binary_sensor.bedroom_elyza_window
+      - binary_sensor.main_bedroom_window
+      - binary_sensor.santi_window
+    to: 'on'
+  condition:
+    - condition: state
+      entity_id: 'person.remco'
+      state: 'not_home'
+    - condition: state
+      entity_id: 'person.annemarie'
+      state: 'not_home'
+    - condition: state
+      entity_id: 'binary_sensor.guest_mode'
+      state: 'off'
+  action:
+    - service: notify.all
+      data_template:
+        title: "Window Open!"
+        message: >-
+          "{{ trigger.to_state.attributes.friendly_name }} is open, but nobody home!!"
