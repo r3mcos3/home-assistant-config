@@ -1,0 +1,27 @@
+---
+- id: downstairs_coming_home_light
+  alias: Downstairs - Coming Home Light
+  trigger:
+    - platform: state
+      entity_id:
+        - device_tracker.oneplus88
+        - device_tracker.iphone_van_marietje
+        - sun.sun
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: device_tracker.iphone_van_marietje
+          state: 'home'
+        - condition: state
+          entity_id: device_tracker.oneplus88
+          state: 'home'
+  action:
+    - service: light.turn_on
+      entity_id:
+        - light.closet_light
+        - light.hallway
+        - light.kitchen_spots
