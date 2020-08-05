@@ -6,6 +6,7 @@
 *.pyc
 ._*
 __pycache__
+*.jpg
 
 # Directory (contents) ignores
 config/.cloud
@@ -23,6 +24,8 @@ config/secrets.yaml
 config/zigbee.db
 config/.google.token
 config/google_calendars.yaml
+config/www/remco.jpg
+config/www/anne.jpg
 
 # Ignore add-on files
 
