@@ -3,7 +3,7 @@
   alias: System - Volume Control
   trigger:
     - platform: time
-      at: 
+      at:
         - '8:30'
         - '20:00'
   action:
