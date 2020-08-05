@@ -9,7 +9,7 @@
     entity_id: input_boolean.beta_week
     state: 'on'
   action:
-    service: notify.mobile_app_in2023
+    service: notify.mobile_app_oneplus88
     data_template:
       title: "New Home Assistant Beta Release"
       message: >-

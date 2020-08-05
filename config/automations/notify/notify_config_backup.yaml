@@ -15,7 +15,7 @@
     platform: state
     entity_id: sensor.ha_backup_log
   action:
-    service: notify.mobile_app_in2023
+    service: notify.mobile_app_oneplus88
     data:
       title: A Backup Off The Snapshots Is Done!!
       message: "Backup Made On {{states('sensor.ha_backup_log')}}"

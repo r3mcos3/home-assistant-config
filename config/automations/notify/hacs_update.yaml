@@ -17,7 +17,7 @@
           {% for repo in state_attr(trigger.entity_id, 'repositories') %}
             **{{ repo.display_name }}** _{{ repo["installed version"] }}_ -> _{{ repo["available version"] }}_
           {% endfor %}
-    - service: notify.mobile_app_in2023
+    - service: notify.mobile_app_oneplus88
       data_template:
         title: Updates pending in HACS
         message: >-
