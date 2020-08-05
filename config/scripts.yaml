@@ -8,3 +8,4 @@
   sequence:
   - data: {}
     service: shell_command.ha_config_backup
+  mode: single
