@@ -5,7 +5,7 @@
     platform: state
     entity_id: sensor.config_backup_log
   action:
-    service: notify.mobile_app_in2023
+    service: notify.mobile_app_oneplus88
     data:
       title: A Backup Off The Config Is Made!!
       message: "Backup Made On {{states('sensor.config_backup_log')}}"
