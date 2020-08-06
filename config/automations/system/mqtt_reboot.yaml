@@ -9,7 +9,7 @@
   action:
     service: mqtt.publish
     data:
-      topic: 
+      topic:
         - cmnd/B_Closet/state
         - cmnd/Hallway_Light/state
         - cmnd/kitchen_switch/state
