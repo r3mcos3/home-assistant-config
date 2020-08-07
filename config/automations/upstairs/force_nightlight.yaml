@@ -23,8 +23,8 @@
           sequence:
             - service: switch.turn_on
               entity_id: switch.wled_elyza_nightlight
-      default:
-        - service: switch.turn_off
-          entity_id:
-            - switch.wled_elyza_nightlight
-            - switch.wled_santi_nightlight
+      # default:
+      #   - service: switch.turn_off
+      #     entity_id:
+      #       - switch.wled_elyza_nightlight
+      #       - switch.wled_santi_nightlight
