@@ -7,20 +7,36 @@
         - device_tracker.oneplus88
         - device_tracker.iphone_van_marietje
         - sun.sun
-  condition:
-    - condition: state
-      entity_id: sun.sun
-      state: 'below_horizon'
-    - condition: or
-      conditions:
-        - condition: state
-          entity_id: device_tracker.oneplus88
-          state: 'home'
-        - condition: state
-          entity_id: device_tracker.iphone_van_marietje
-          state: 'home'
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
   action:
-    - service: light.turn_on
-      entity_id:
-        - light.closet_light
-        - light.kitchen_spots
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: 'below_horizon'
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: device_tracker.iphone_van_marietje
+                  state: home
+                - condition: state
+                  entity_id: device_tracker.oneplus88
+                  state: home
+          sequence:
+            - service: light.turn_on
+              entity_id:
+                - light.kitchen_spots
+                - light.closet_light
+            - service: automation.turn_off
+              entity_id: automation.downstairs_sunset_light
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state:  'above_horizon'
+          sequence:
+            - service: automation.turn_on
+              entity_id: automation.downstairs_sunset_light
