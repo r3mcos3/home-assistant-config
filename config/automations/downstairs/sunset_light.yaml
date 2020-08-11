@@ -11,32 +11,35 @@
       event: start
     - platform: event
       event_type: automation_reloaded
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: device_tracker.iphone_van_marietje
+          state: home
+        - condition: state
+          entity_id: device_tracker.oneplus88
+          state: home
   action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: 'below_horizon'
-            - condition: or
-              conditions:
-                - condition: state
-                  entity_id: device_tracker.iphone_van_marietje
-                  state: home
-                - condition: state
-                  entity_id: device_tracker.oneplus88
-                  state: home
-          sequence:
-            - service: light.turn_on
-              entity_id:
-                - light.kitchen_spots
-                - light.closet_light
-            - service: automation.turn_off
-              entity_id: automation.downstairs_sunset_light
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: 'above_horizon'
-          sequence:
-            - service: automation.turn_on
-              entity_id: automation.downstairs_sunset_light
+    - service: light.turn_on
+      entity_id:
+        - light.closet_light
+        - light.kitchen_spots
+    - service: automation.turn_off
+      entity_id: automation.downstairs_sunset_light
+
+- id: system_reset_sunset_automation
+  alias: System - Reset Sunset Automation
+  trigger:
+    platform: state
+    entity_id: sun.sun
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: 'above_horizon'
+  action:
+    - service: automation.turn_on
+      entity_id: automation.downstairs_sunset_light
