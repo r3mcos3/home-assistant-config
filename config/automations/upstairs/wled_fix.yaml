@@ -1,0 +1,34 @@
+---
+- id: upstairs_wled_fix
+  alias: Upstairs - Wled Fix
+  trigger:
+    platform: state
+    entity_id:
+      - light.wled_elyza
+      - light.wled_santi
+  mode: single
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: light.wled_santi
+              state: 'on'
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.wled_santi
+                brightness: 128
+        - conditions:
+            - condition: state
+              entity_id: light.wled_elyza
+              state: 'on'
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.wled_elyza
+                brightness: 128
+      default:
+        - service: light.turn_off
+          entity_id:
+            - light.wled_elyza
+            - light.wled_santi
