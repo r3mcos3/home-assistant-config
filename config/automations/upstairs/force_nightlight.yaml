@@ -15,7 +15,6 @@
           sequence:
             - service: switch.turn_on
               entity_id: switch.wled_santi_nightlight
-    - choose:
         - conditions:
             - condition: state
               entity_id: light.wled_elyza
