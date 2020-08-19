@@ -1,0 +1,10 @@
+---
+- id: upstairs_santi_bedroom
+  alias: Upstairs - Santi Bedroom
+  trigger:
+    platform: mqtt
+    topic: stat/Light_Switch_Santi/BUTTON1T
+    payload: '{"TRIG":"DOUBLE"}'
+  action:
+    - service: switch.toggle
+      entity_id: switch.wled_santi_nightlight
