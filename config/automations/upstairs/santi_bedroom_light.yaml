@@ -6,5 +6,5 @@
     topic: stat/Light_Switch_Santi/BUTTON1T
     payload: '{"TRIG":"DOUBLE"}'
   action:
-    - service: switch.toggle
-      entity_id: switch.wled_santi_nightlight
+    - service: light.toggle
+      entity_id: light.wled_santi
