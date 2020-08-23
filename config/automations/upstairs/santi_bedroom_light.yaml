@@ -7,4 +7,6 @@
     payload: '{"TRIG":"DOUBLE"}'
   action:
     - service: light.toggle
-      entity_id: light.wled_santi
+      data:
+        entity_id: light.wled_santi
+        brightness: 128

@@ -31,10 +31,10 @@
       device_ieee: "d0:cf:5e:ff:fe:ce:9f:b6"
       command: "move_with_on_off"
   action:
-    - service: homeassistant.toggle
-      entity_id:
-        - light.wled_elyza
-        - switch.wled_elyza_nightlight
+    service: light.toggle
+    data:
+      entity_id: light.wled_elyza
+      brightness: 128
 - id: 3f9d8685-80d8-4142-bbba-39cfd2d75c89
   alias: Remote - Attic
   trigger:
