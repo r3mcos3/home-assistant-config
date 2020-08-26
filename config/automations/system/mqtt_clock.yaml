@@ -5,6 +5,10 @@
     platform: mqtt
     topic: alarm_clock_mqtt/start
     payload: "alarming"
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
     - service: light.turn_on
       entity_id:
