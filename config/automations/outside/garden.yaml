@@ -4,6 +4,7 @@
   trigger:
     - platform: state
       entity_id: binary_sensor.backdoor
+  mode: single
   action:
     - choose:
         - conditions:
