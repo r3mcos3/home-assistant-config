@@ -1,6 +1,6 @@
 ---
 - platform: command_line
   name: Server Temp
-  command: ssh -i /config/ssh/id_rsa -o 'StrictHostKeyChecking=no' root@10.10.50.200 'cat /sys/class/thermal/thermal_zone0/temp'
+  command: ssh -i /config/.ssh/id_rsa -o 'StrictHostKeyChecking=no' root@10.10.50.200 'cat /sys/class/thermal/thermal_zone0/temp'
   unit_of_measurement: "°C"
   value_template: '{{ value | multiply(0.001) }}'
