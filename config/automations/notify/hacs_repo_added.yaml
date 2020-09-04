@@ -18,7 +18,7 @@
           {% set id = trigger.event.data.repository_id %}
           [{{ repo }}](/hacs/repository/{{ id }})
           was just added to HACS.
-    - service: notify.mobile_app_oneplus88
+    - service: notify.mobile_app_in2023
       data_template:
         title: New repository in HACS
         message: >-

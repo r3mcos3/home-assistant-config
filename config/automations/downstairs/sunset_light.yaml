@@ -4,7 +4,7 @@
   trigger:
     - platform: state
       entity_id:
-        - device_tracker.oneplus88
+        - device_tracker.in2023
         - device_tracker.iphone_van_marietje
         - sun.sun
     - platform: homeassistant
@@ -21,7 +21,7 @@
           entity_id: device_tracker.iphone_van_marietje
           state: home
         - condition: state
-          entity_id: device_tracker.oneplus88
+          entity_id: device_tracker.in2023
           state: home
   action:
     - service: light.turn_on

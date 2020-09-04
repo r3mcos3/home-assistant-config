@@ -5,7 +5,7 @@
     platform: state
     entity_id: sensor.stable_version
   action:
-    - service: notify.mobile_app_oneplus88
+    - service: notify.mobile_app_in2023
       data:
         title: New Home Assistant Release
         message: 'Home Assistant {{ states(''sensor.stable_version'') }} is now available.'
@@ -18,7 +18,7 @@
     entity_id: sensor.potential_breaking_changes
     above: 1
   action:
-    service: notify.mobile_app_oneplus88
+    service: notify.mobile_app_in2023
     data_template:
       title: "Don't Update Yet!!!"
       message: "Please check breaking changes, Otherwise HA won't boot!!"
