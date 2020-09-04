@@ -1,0 +1,28 @@
+---
+- id: downstairs_climate
+  alias: Downstairs - Climate
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.woonkamer_temperature
+    below: 20
+    for:
+      minutes: 5
+  action:
+    - choose:
+        - conditions:
+            - condition: numeric_state
+              entity_id: sensor.woonkamer_temperature
+              below: 20
+          sequence:
+            - service: climate.set_temperature
+              data:
+                entity_id: climate.woonkamer
+                temperature: 21
+                target_temp_high: 21
+                target_temp_low: 20
+                hvac_mode: heat
+      default:
+        - service: climate.set_hvac_mode
+          data:
+            entity_id: climate.woonkamer
+            hvac_mode: 'off'
