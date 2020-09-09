@@ -15,6 +15,7 @@ config/.storage
 config/deps
 config/.ssh
 config/image
+config/www
 
 # Specific file ignores
 config/.uuid
