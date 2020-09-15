@@ -1,9 +1,0 @@
----
-- platform: group
-  name: Garden Group
-  entities:
-    - light.garden_light
-    - light.garden_flood_light
-    - light.barn
-    - light.small_barn
-    - light.patio

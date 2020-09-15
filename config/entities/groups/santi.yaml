@@ -1,6 +1,0 @@
----
-wifi:
-  name: wifi
-  entities:
-    - switch.ipad_santi
-    - switch.nintendo_switch

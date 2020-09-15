@@ -4,6 +4,9 @@
 
 ![GitHub watchers](https://img.shields.io/github/watchers/r3mcos3/home-assistant-config?style=social) ![GitHub stars](https://img.shields.io/github/stars/r3mcos3/home-assistant-config?style=social) ![GitHub followers](https://img.shields.io/github/followers/r3mcos3?style=social)
 
+## Due to massive crash off the server i'm running Home Assistant on 
+##  it will contain less files, Because i'm building it from the ground up!!
+
 ## About
 
 I'm not that good in writing english, so here's my README.md

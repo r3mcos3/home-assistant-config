@@ -24,10 +24,10 @@
           entity_id: device_tracker.in2023
           state: home
   action:
-    - service: light.turn_on
-      entity_id:
-        - light.closet_light
-        - light.kitchen_spots
+    - service: switch.turn_on
+      entity_id: 
+        - switch.kitchen_switch
+        - switch.closet_light
     - service: automation.turn_off
       entity_id: automation.downstairs_sunset_light
 

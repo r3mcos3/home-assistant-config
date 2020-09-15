@@ -1,4 +1,2 @@
 ---
-# This component is a meta-component and configures a
-# default set of components for Home Assistant to load.
 default_config:

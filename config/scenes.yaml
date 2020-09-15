@@ -1,1 +1,9 @@
-[]
+- id: '1599939736078'
+  name: Morning Lights
+  entities:
+    switch.closet_light:
+      friendly_name: Closet Light
+      state: 'on'
+    switch.kitchen_switch:
+      friendly_name: Kitchen Spots
+      state: 'on'

@@ -1,1 +1,335 @@
-[]
+- id: '1599849518136'
+  alias: Light Remote Small Bedroom
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
+      command: 'on'
+  condition: []
+  action:
+  - type: toggle
+    device_id: 6c71479d9a39477bb41f3d0e181aeb93
+    entity_id: light.small_bedroom_light
+    domain: light
+  mode: single
+- id: '1599849598361'
+  alias: Light Remote Main Bedroom
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
+      command: 'off'
+  condition: []
+  action:
+  - type: toggle
+    device_id: e3c6227706f54d5c8bf49dbf0ecd49d7
+    entity_id: light.main_bedroom_light
+    domain: light
+  mode: single
+- id: '1599888825382'
+  alias: Basement Light
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: c23dfd74f4b811ea9dc9510b8fbf6d4b
+    entity_id: binary_sensor.lumi_lumi_sensor_motion_aq2_ias_zone
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 47275cc4f4b911eaaff477b87bea64d4
+    entity_id: light.basement_closet
+    domain: light
+    brightness_pct: 75
+  - delay: 00:03:00
+  - type: turn_off
+    device_id: 47275cc4f4b911eaaff477b87bea64d4
+    entity_id: light.basement_closet
+    domain: light
+  mode: restart
+- id: '1599889262541'
+  alias: Toilet Light
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 3baf8c48f4ba11ea804cb9b962ae9853
+    entity_id: binary_sensor.toilet_motion
+    domain: binary_sensor
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - type: is_motion
+        condition: device
+        device_id: 3baf8c48f4ba11ea804cb9b962ae9853
+        entity_id: binary_sensor.toilet_motion
+        domain: binary_sensor
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        entity_id: switch.toilet_light
+    default:
+    - delay: 00:05:00
+    - service: switch.turn_off
+      data: {}
+      entity_id: switch.toilet_light
+  mode: restart
+  max: 5
+- id: '1599892049832'
+  alias: Basement Light
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: c23dfd74f4b811ea9dc9510b8fbf6d4b
+    entity_id: binary_sensor.basement_motion
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 47275cc4f4b911eaaff477b87bea64d4
+    entity_id: light.basement_closet
+    domain: light
+    brightness_pct: 75
+  - delay: 00:03:00
+  - type: turn_off
+    device_id: 47275cc4f4b911eaaff477b87bea64d4
+    entity_id: light.basement_closet
+    domain: light
+  mode: restart
+- id: '1599893374390'
+  alias: Attic Light
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
+      command: move
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.attic
+  mode: single
+- id: '1599900916769'
+  alias: Cover Open
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
+      command: up_open
+  condition: []
+  action:
+  - service: cover.open_cover
+    entity_id: cover.main_bedroom_cover
+  mode: single
+- id: '1599901246321'
+  alias: Cover Close
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
+      command: down_close
+  condition: []
+  action:
+  - service: cover.close_cover
+    entity_id: cover.main_bedroom_cover
+  mode: single
+- id: '1599939887668'
+  alias: Alarm Clock
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: alarm_clock_mqtt/start
+    payload: alarming
+  condition: []
+  action:
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.morning_lights
+  mode: single
+- id: '1599940194212'
+  alias: 'Switch Wled Santi '
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/Light_Switch_Santi/BUTTON1T
+    payload: '{"TRIG":"DOUBLE"}'
+  condition: []
+  action:
+  - service: light.toggle
+    data:
+      brightness: 128
+    entity_id: light.wled_santi
+  mode: single
+- id: '1599978139751'
+  alias: 'Switch Elyza Wled '
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
+      command: move_with_on_off
+  condition: []
+  action:
+  - service: light.toggle
+    data:
+      brightness: 128
+    entity_id: light.wled_elyza
+  mode: single
+- id: '1599979447841'
+  alias: Nightlight Santi
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 1145ad15f45f11eab127bb6896446cee
+    entity_id: light.wled_santi
+    domain: light
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 1145ad15f45f11eab127bb6896446cee
+    entity_id: switch.wled_santi_nightlight
+    domain: switch
+  mode: single
+- id: '1599979513648'
+  alias: Nightlight Elyza
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 1b738986f45f11eaacf1bb65c6dd0d97
+    entity_id: light.wled_elyza
+    domain: light
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 1b738986f45f11eaacf1bb65c6dd0d97
+    entity_id: switch.wled_elyza_nightlight
+    domain: switch
+  mode: single
+- id: '1599987819630'
+  alias: Volume Down
+  description: ''
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  condition: []
+  action:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.2
+      entity_id:
+      - media_player.google_hub
+      - media_player.keuken_speaker
+      - media_player.woonkamer_speaker
+      - media_player.huiskamer
+      - media_player.serre
+  mode: single
+- id: '1599988158385'
+  alias: Volume Up
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.weekend_volume
+  condition: []
+  action:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+      entity_id:
+      - media_player.google_hub
+      - media_player.keuken_speaker
+      - media_player.woonkamer_speaker
+      - media_player.huiskamer
+      - media_player.serre
+  mode: single
+- id: '1599993260848'
+  alias: Backyard Lights
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/kitchen_switch/BUTTON1T
+    payload: '{"TRIG":"HOLD"}'
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.backyard_lights
+  mode: single
+- id: '1600000512088'
+  alias: New HA Version Available
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.latest_version
+  condition: []
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      title: New HA Version Avsilable
+      message: Home Assistant Version {{states('sensor.latest_version')}} Is Now Available
+  mode: single
+- id: '1600193619794'
+  alias: Sunset Lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: device_tracker.in2023
+  - platform: state
+    entity_id: device_tracker.iphone_van_marietje
+  - platform: state
+    entity_id: sun.sun
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+    event_data: {}
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: device_tracker.in2023
+      state: home
+    - condition: state
+      entity_id: device_tracker.iphone_van_marietje
+      state: home
+  action:
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.morning_lights
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.sunset_lights
+  mode: single
+- id: '1600193799548'
+  alias: Reset Sunset Automation
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  action:
+  - service: automation.turn_on
+    data: {}
+    entity_id: automation.sunset_lights
+  mode: single

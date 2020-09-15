@@ -1,7 +1,26 @@
 ---
-# The light component allows you to track and control various light bulbs.
-# This loads up my light configurations.
-#
-# https://www.home-assistant.io/components/light/
-#
-light: !include_dir_merge_list ../entities/lights
+light:
+  - platform: group
+    name: Attic
+    entities:
+      - light.attic_1
+      - light.attic_2
+  - platform: group
+    name: Patio
+    entities:
+      - light.patio_led_1
+      - light.patio_led_2
+      - light.patio_led_3
+      - light.patio_led_4
+      - light.patio_led_5
+      - light.patio_led_6
+  - platform: group
+    name: Backyard Lights
+    entities:
+      - light.patio
+      - light.barn_light
+      - light.small_barn_light
+      - light.flood_light
+  - platform: switch
+    name: Flood Light
+    entity_id: switch.flood_light

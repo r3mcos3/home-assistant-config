@@ -1,9 +1,0 @@
----
-- id: a205ed7f-d9ad-4bc0-8373-3d6a4b8b3fd5
-  alias: Downstairs - Closet Off After Midnight
-  trigger:
-    platform: time
-    at: 00:00
-  action:
-    service: light.turn_off
-    entity_id: light.closet_light

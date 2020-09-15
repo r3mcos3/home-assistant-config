@@ -1,6 +1,0 @@
----
-- platform: group
-  name: Attic
-  entities:
-    - light.attic_1
-    - light.attic_2

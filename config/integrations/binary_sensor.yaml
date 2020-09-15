@@ -1,2 +1,5 @@
 ---
-binary_sensor: !include_dir_merge_list ../entities/binary_sensors
+binary_sensor:
+  - platform: uptimerobot
+    api_key: !secret uptimerobot_api
+  
