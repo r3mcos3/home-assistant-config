@@ -56,11 +56,8 @@
   alias: Toilet Light
   description: ''
   trigger:
-  - type: motion
-    platform: device
-    device_id: 3baf8c48f4ba11ea804cb9b962ae9853
+  - platform: state
     entity_id: binary_sensor.toilet_motion
-    domain: binary_sensor
   condition: []
   action:
   - choose:
@@ -275,13 +272,13 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.latest_version
+    entity_id: sensor.beta
   condition: []
   action:
   - service: notify.mobile_app_in2023
     data:
       title: New HA Version Avsilable
-      message: Home Assistant Version {{states('sensor.latest_version')}} Is Now Available
+      message: Home Assistant Version {{states('sensor.beta')}} Is Now Available
   mode: single
 - id: '1600193619794'
   alias: Sunset Lights
