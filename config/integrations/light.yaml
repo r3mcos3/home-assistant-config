@@ -24,3 +24,8 @@ light:
   - platform: switch
     name: Flood Light
     entity_id: switch.flood_light
+  - platform: group
+    name: Livingroom Spots
+    entities:
+      - light.livingroom_spots_1
+      - light.livingroom_spots_2
