@@ -1,0 +1,36 @@
+spots_brightness:
+  alias: Spots Brightness
+  sequence:
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  - delay: 00:00:01
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
+  mode: single
+  icon: mdi:spotlight
