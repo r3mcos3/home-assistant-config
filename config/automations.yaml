@@ -286,10 +286,10 @@
   trigger:
   - platform: state
     entity_id: device_tracker.in2023
+    to: home
   - platform: state
     entity_id: device_tracker.iphone_van_marietje
-  - platform: state
-    entity_id: sun.sun
+    to: home
   - platform: homeassistant
     event: start
   - platform: event
@@ -299,21 +299,18 @@
   - condition: state
     entity_id: sun.sun
     state: below_horizon
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: device_tracker.in2023
-      state: home
-    - condition: state
-      entity_id: device_tracker.iphone_van_marietje
-      state: home
   action:
-  - service: scene.turn_on
+  - type: turn_on
+    device_id: 5e1a4fc2842e401c8a66a96272680fed
+    entity_id: switch.closet_light
+    domain: switch
+  - type: turn_on
+    device_id: 962a65e9f46211ea98e83b5a5b58cb23
+    entity_id: switch.kitchen_switch
+    domain: switch
+  - service: light.turn_on
     data: {}
-    entity_id: scene.morning_lights
-  - service: automation.turn_off
-    data: {}
-    entity_id: automation.sunset_lights
+    entity_id: light.livingroom_spots
   mode: single
 - id: '1600193799548'
   alias: Reset Sunset Automation
@@ -328,5 +325,48 @@
   action:
   - service: automation.turn_on
     data: {}
-    entity_id: automation.sunset_lights
+    entity_id: automation.coming_home
+  mode: single
+- id: '1600514583928'
+  alias: Spots Brightness
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.livingroom_spots
+    to: 'on'
+  condition: []
+  action:
+  - service: script.turn_on
+    data: {}
+    entity_id: script.spots_brightness
+  mode: single
+- id: '1600581061825'
+  alias: Coming Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: device_tracker.iphone_van_marietje
+    to: home
+  - platform: state
+    entity_id: device_tracker.in2023
+    to: home
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.livingroom_spots
+  - type: turn_on
+    device_id: 5e1a4fc2842e401c8a66a96272680fed
+    entity_id: switch.closet_light
+    domain: switch
+  - type: turn_on
+    device_id: 962a65e9f46211ea98e83b5a5b58cb23
+    entity_id: switch.kitchen_switch
+    domain: switch
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.coming_home
   mode: single
