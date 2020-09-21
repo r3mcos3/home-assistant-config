@@ -328,7 +328,7 @@
     entity_id: automation.coming_home
   mode: single
 - id: '1600514583928'
-  alias: Spots Brightness
+  alias: Spots Brightness On
   description: ''
   trigger:
   - platform: state
@@ -339,6 +339,9 @@
   - service: script.turn_on
     data: {}
     entity_id: script.spots_brightness
+  - service: automation.turn_off
+    data: {}
+    entity_id: automation.spots_brightness
   mode: single
 - id: '1600581061825'
   alias: Coming Home
@@ -369,4 +372,35 @@
   - service: automation.turn_off
     data: {}
     entity_id: automation.coming_home
+  mode: single
+- id: '1600702808213'
+  alias: Barn Light Switch
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: stat/main_switch_backyard/BUTTON1T
+    payload: '{"TRIG":"HOLD"}'
+  condition: []
+  action:
+  - type: toggle
+    device_id: 4816d04af45c11eaaa422f9ea8c2efc1
+    entity_id: light.barn_light
+    domain: light
+  - type: toggle
+    device_id: ac478478f45c11eaa577b3c31430ad0d
+    entity_id: light.small_barn_light
+    domain: light
+  mode: single
+- id: '1600709609082'
+  alias: Spots Brightness Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.livingroom_spots
+    to: 'off'
+  condition: []
+  action:
+  - service: automation.turn_on
+    data: {}
+    entity_id: automation.spots_brightness
   mode: single
