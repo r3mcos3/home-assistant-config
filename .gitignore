@@ -16,6 +16,7 @@ config/deps
 config/.ssh
 config/image
 config/www
+config/netdaemon
 
 # Specific file ignores
 config/.uuid
