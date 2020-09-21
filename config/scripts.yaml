@@ -4,31 +4,38 @@ spots_brightness:
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
-  - delay: 00:00:01
+  - delay:
+      milliseconds: 500
   - service: light.toggle
     data: {}
     entity_id: light.livingroom_spots
