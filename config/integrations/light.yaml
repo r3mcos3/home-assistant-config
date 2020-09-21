@@ -29,3 +29,10 @@ light:
     entities:
       - light.livingroom_spots_1
       - light.livingroom_spots_2
+  - platform: group
+    name: Garden
+    entities:
+      - light.garden_light_1
+      - light.garden_light_2
+      - light.garden_light_3
+      - light.garden_light_4
