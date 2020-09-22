@@ -284,21 +284,23 @@
   alias: Sunset Lights
   description: ''
   trigger:
-  - platform: state
-    entity_id: device_tracker.in2023
-    to: home
-  - platform: state
-    entity_id: device_tracker.iphone_van_marietje
-    to: home
   - platform: homeassistant
     event: start
   - platform: event
     event_type: automation_reloaded
     event_data: {}
-  condition:
-  - condition: state
+  - platform: state
     entity_id: sun.sun
-    state: below_horizon
+    to: below_horizon
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: device_tracker.iphone_van_marietje
+      state: home
+    - condition: state
+      entity_id: device_tracker.in2023
+      state: home
   action:
   - type: turn_on
     device_id: 5e1a4fc2842e401c8a66a96272680fed
@@ -313,7 +315,7 @@
     entity_id: light.livingroom_spots
   mode: single
 - id: '1600193799548'
-  alias: Reset Sunset Automation
+  alias: Reset Coming Home Automation
   description: ''
   trigger:
   - platform: state
@@ -341,7 +343,7 @@
     entity_id: script.spots_brightness
   - service: automation.turn_off
     data: {}
-    entity_id: automation.spots_brightness
+    entity_id: automation.spots_brightness_on
   mode: single
 - id: '1600581061825'
   alias: Coming Home
@@ -403,4 +405,19 @@
   - service: automation.turn_on
     data: {}
     entity_id: automation.spots_brightness
+  mode: single
+- id: '1600711283274'
+  alias: Remote Living Room Spots
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 84:2e:14:ff:fe:47:66:63:1:0x0006
+      command: 'on'
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+    entity_id: light.livingroom_spots
   mode: single
