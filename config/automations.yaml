@@ -291,7 +291,8 @@
     event_data: {}
   - platform: state
     entity_id: sun.sun
-    to: below_horizon
+    attribute: elevation
+    to: '1.5'
   condition:
   - condition: or
     conditions:
