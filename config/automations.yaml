@@ -30,28 +30,6 @@
     entity_id: light.main_bedroom_light
     domain: light
   mode: single
-- id: '1599888825382'
-  alias: Basement Light
-  description: ''
-  trigger:
-  - type: motion
-    platform: device
-    device_id: c23dfd74f4b811ea9dc9510b8fbf6d4b
-    entity_id: binary_sensor.lumi_lumi_sensor_motion_aq2_ias_zone
-    domain: binary_sensor
-  condition: []
-  action:
-  - type: turn_on
-    device_id: 47275cc4f4b911eaaff477b87bea64d4
-    entity_id: light.basement_closet
-    domain: light
-    brightness_pct: 75
-  - delay: 00:03:00
-  - type: turn_off
-    device_id: 47275cc4f4b911eaaff477b87bea64d4
-    entity_id: light.basement_closet
-    domain: light
-  mode: restart
 - id: '1599889262541'
   alias: Toilet Light
   description: ''
@@ -147,10 +125,12 @@
   alias: Alarm Clock
   description: ''
   trigger:
-  - platform: mqtt
-    topic: alarm_clock_mqtt/start
-    payload: alarming
-  condition: []
+  - platform: time
+    at: input_datetime.morning_lights
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: scene.turn_on
     data: {}
@@ -223,7 +203,7 @@
   description: ''
   trigger:
   - platform: time
-    at: '20:00:00'
+    at: input_datetime.volume_down
   condition: []
   action:
   - service: media_player.volume_set
@@ -241,7 +221,7 @@
   description: ''
   trigger:
   - platform: time
-    at: input_datetime.weekend_volume
+    at: input_datetime.volume_up
   condition: []
   action:
   - service: media_player.volume_set
@@ -277,7 +257,7 @@
   action:
   - service: notify.mobile_app_in2023
     data:
-      title: New HA Version Avsilable
+      title: New HA Version Available
       message: Home Assistant Version {{states('sensor.beta')}} Is Now Available
   mode: single
 - id: '1600193619794'
@@ -286,9 +266,6 @@
   trigger:
   - platform: homeassistant
     event: start
-  - platform: event
-    event_type: automation_reloaded
-    event_data: {}
   - platform: state
     entity_id: sun.sun
     attribute: elevation
@@ -405,7 +382,7 @@
   action:
   - service: automation.turn_on
     data: {}
-    entity_id: automation.spots_brightness
+    entity_id: automation.spots_brightness_on
   mode: single
 - id: '1600711283274'
   alias: Remote Living Room Spots
@@ -422,3 +399,121 @@
     data: {}
     entity_id: light.livingroom_spots
   mode: single
+- id: '1601100425152'
+  alias: Morning Lights
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.morning_lights
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - type: turn_on
+    device_id: 5e1a4fc2842e401c8a66a96272680fed
+    entity_id: switch.closet_light
+    domain: switch
+  - type: turn_on
+    device_id: 962a65e9f46211ea98e83b5a5b58cb23
+    entity_id: switch.kitchen_switch
+    domain: switch
+  mode: single
+- id: '1601569302500'
+  alias: Set Guest Mode
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: device_tracker.samsung_carla
+  - platform: state
+    entity_id: device_tracker.samsung_louis
+  - platform: state
+    entity_id: device_tracker.iphonevwendolyn
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: device_tracker.samsung_carla
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        entity_id: input_boolean.guest_mode
+    - conditions:
+      - condition: state
+        entity_id: device_tracker.samsung_louis
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        entity_id: input_boolean.guest_mode
+    - conditions:
+      - condition: state
+        entity_id: device_tracker.iphonevwendolyn
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        entity_id: input_boolean.guest_mode
+    default:
+    - service: input_boolean.turn_off
+      data: {}
+      entity_id: input_boolean.guest_mode
+  mode: single
+- id: '1601576698227'
+  alias: Automatic Garden Lights
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 5463077bc85f4c22b1e511d7aaf0924e
+    entity_id: binary_sensor.kitchen_door_sensor
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - choose:
+    - conditions:
+      - type: is_open
+        condition: device
+        device_id: 5463077bc85f4c22b1e511d7aaf0924e
+        entity_id: binary_sensor.kitchen_door_sensor
+        domain: binary_sensor
+      sequence:
+      - service: light.turn_on
+        data: {}
+        entity_id: light.patio
+      - type: turn_on
+        device_id: 94ff388afb5a11eaa3accf594cc9f12e
+        entity_id: switch.main_switch_backyard
+        domain: switch
+      - delay: 00:00:05
+      - service: light.turn_on
+        data: {}
+        entity_id: light.garden
+      - type: turn_on
+        device_id: 4816d04af45c11eaaa422f9ea8c2efc1
+        entity_id: light.barn_light
+        domain: light
+      - type: turn_on
+        device_id: ac478478f45c11eaa577b3c31430ad0d
+        entity_id: light.small_barn_light
+        domain: light
+      - type: turn_on
+        device_id: 1ea97b16f45b11ea960391631ef5836e
+        entity_id: switch.flood_light
+        domain: switch
+    default:
+    - delay: 00:05:00
+    - service: homeassistant.turn_off
+      data:
+        entity_id:
+        - light.patio
+        - light.garden
+        - light.small_barn_light
+        - light.barn_light
+        - light.flood_light
+  mode: restart
