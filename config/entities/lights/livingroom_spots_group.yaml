@@ -1,0 +1,7 @@
+---
+- platform: group
+  name: Livingroom Spots
+  entities:
+    - light.livingroom_spots_1
+    - light.livingroom_spots_2
+

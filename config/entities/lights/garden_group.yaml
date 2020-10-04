@@ -1,0 +1,8 @@
+---
+- platform: group
+  name: Garden
+  entities:
+    - light.garden_light_1
+    - light.garden_light_2
+    - light.garden_light_3
+    - light.garden_light_4

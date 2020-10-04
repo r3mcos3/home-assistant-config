@@ -1,0 +1,8 @@
+---
+- platform: group
+  name: Backyard Lights
+  entities:
+    - light.patio
+    - light.barn_light
+    - light.small_barn_light
+    - light.flood_light

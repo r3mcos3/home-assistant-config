@@ -1,6 +1,2 @@
 ---
-device_tracker:
-  - platform: ping
-    hosts:
-      remco: 10.10.30.190
-      annemarie: 10.10.50.10
+device_tracker: !include_dir_merge_list ../entities/device_trackers

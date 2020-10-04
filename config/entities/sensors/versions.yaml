@@ -1,0 +1,13 @@
+---
+- platform: version
+  name: Beta
+  beta: true
+  image: qemux86-64
+  source: hassio
+- platform: version
+  name: Installed
+- platform: version
+  name: Stable
+  beta: false
+  image: qemux86-64
+  source: hassio
