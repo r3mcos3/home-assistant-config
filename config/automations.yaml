@@ -243,9 +243,15 @@
     payload: '{"TRIG":"HOLD"}'
   condition: []
   action:
-  - service: light.toggle
+  - service: homeassistant.toggle
     data: {}
-    entity_id: light.backyard_lights
+    entity_id:
+    - light.patio
+    - light.garden
+    - light.barn_light
+    - light.small_barn_light
+    - light.flood_light
+    - switch.main_switch_backyard
   mode: single
 - id: '1600000512088'
   alias: New HA Version Available
@@ -268,8 +274,7 @@
     event: start
   - platform: state
     entity_id: sun.sun
-    attribute: elevation
-    to: '1.5'
+    to: below_horizon
   condition:
   - condition: or
     conditions:
@@ -279,6 +284,9 @@
     - condition: state
       entity_id: device_tracker.in2023
       state: home
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
   - type: turn_on
     device_id: 5e1a4fc2842e401c8a66a96272680fed
@@ -461,59 +469,22 @@
       data: {}
       entity_id: input_boolean.guest_mode
   mode: single
-- id: '1601576698227'
-  alias: Automatic Garden Lights
+- id: '1602318286800'
+  alias: Lights Off When Away
   description: ''
   trigger:
-  - type: opened
-    platform: device
-    device_id: 5463077bc85f4c22b1e511d7aaf0924e
-    entity_id: binary_sensor.kitchen_door_sensor
-    domain: binary_sensor
+  - platform: state
+    entity_id: person.annemarie
+    to: not_home
+  - platform: state
+    entity_id: person.remco
+    to: not_home
   condition:
   - condition: state
-    entity_id: sun.sun
-    state: below_horizon
+    entity_id: automation.set_guest_mode
+    state: 'off'
   action:
-  - choose:
-    - conditions:
-      - type: is_open
-        condition: device
-        device_id: 5463077bc85f4c22b1e511d7aaf0924e
-        entity_id: binary_sensor.kitchen_door_sensor
-        domain: binary_sensor
-      sequence:
-      - service: light.turn_on
-        data: {}
-        entity_id: light.patio
-      - type: turn_on
-        device_id: 94ff388afb5a11eaa3accf594cc9f12e
-        entity_id: switch.main_switch_backyard
-        domain: switch
-      - delay: 00:00:05
-      - service: light.turn_on
-        data: {}
-        entity_id: light.garden
-      - type: turn_on
-        device_id: 4816d04af45c11eaaa422f9ea8c2efc1
-        entity_id: light.barn_light
-        domain: light
-      - type: turn_on
-        device_id: ac478478f45c11eaa577b3c31430ad0d
-        entity_id: light.small_barn_light
-        domain: light
-      - type: turn_on
-        device_id: 1ea97b16f45b11ea960391631ef5836e
-        entity_id: switch.flood_light
-        domain: switch
-    default:
-    - delay: 00:05:00
-    - service: homeassistant.turn_off
-      data:
-        entity_id:
-        - light.patio
-        - light.garden
-        - light.small_barn_light
-        - light.barn_light
-        - light.flood_light
-  mode: restart
+  - service: light.turn_off
+    data: {}
+    entity_id: all
+  mode: single
