@@ -7,3 +7,50 @@
     switch.kitchen_switch:
       friendly_name: Kitchen Spots
       state: 'on'
+- id: '1601915244445'
+  name: Backyard Scene
+  entities:
+    light.barn_light:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 254
+      color_temp: 370
+      off_brightness:
+      friendly_name: Barn Light
+      supported_features: 43
+      state: 'on'
+    light.small_barn_light:
+      brightness: 254
+      off_brightness:
+      friendly_name: Small Barn Light
+      supported_features: 41
+      state: 'on'
+    switch.flood_light:
+      friendly_name: Flood Light
+      state: 'on'
+    switch.main_switch_backyard:
+      friendly_name: Main Switch Backyard
+      state: 'on'
+    light.garden:
+      brightness: 0
+      entity_id:
+      - light.garden_light_1
+      - light.garden_light_2
+      - light.garden_light_3
+      - light.garden_light_4
+      friendly_name: Garden
+      supported_features: 41
+      state: 'on'
+    light.patio:
+      brightness: 254
+      entity_id:
+      - light.patio_led_1
+      - light.patio_led_2
+      - light.patio_led_3
+      - light.patio_led_4
+      - light.patio_led_5
+      - light.patio_led_6
+      friendly_name: Patio
+      supported_features: 41
+      state: 'on'
+  icon: mdi:flower-outline
