@@ -17,6 +17,7 @@ config/.ssh
 config/image
 config/www
 config/netdaemon
+config/neighbours
 
 # Specific file ignores
 config/.uuid
