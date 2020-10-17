@@ -1,6 +1,6 @@
 ---
 - id: e50c1fcc-7515-4592-aea0-bd6e46b2693a
-  alias: TEST - Livingroom Heating
+  alias: Livingroom Heating
   trigger:
     - platform: homeassistant
       event: start
