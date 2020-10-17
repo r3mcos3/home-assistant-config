@@ -1,0 +1,41 @@
+---
+- id: e50c1fcc-7515-4592-aea0-bd6e46b2693a
+  alias: TEST - Livingroom Heating
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
+    - platform: state
+      entity_id:
+        - sensor.average_livingroom_temp
+        - person.remco
+        - person.annemarie
+        - input_number.below_temp
+  action:
+    - choose:
+        - conditions:
+            - condition: numeric_state
+              entity_id: sensor.average_livingroom_temp
+              below: input_number.below_temp
+            - condition: time
+              before: input_datetime.heating_stop
+              after: input_datetime.heating_start
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: person.annemarie
+                  state: home
+                - condition: state
+                  entity_id: person.remco
+                  state: home
+          sequence:
+            - service: climate.set_temperature
+              data:
+                entity_id: climate.woonkamer
+                hvac_mode: heat
+                temperature: 19
+      default:
+        - service: climate.turn_off
+          data:
+            entity_id: climate.woonkamer
