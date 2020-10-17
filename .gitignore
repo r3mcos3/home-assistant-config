@@ -8,6 +8,7 @@
 ._*
 __pycache__
 *.jpg
+*.mp3
 
 # Directory (contents) ignores
 config/.cloud
