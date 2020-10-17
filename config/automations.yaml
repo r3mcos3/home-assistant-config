@@ -357,6 +357,15 @@
     device_id: 962a65e9f46211ea98e83b5a5b58cb23
     entity_id: switch.kitchen_switch
     domain: switch
+  - type: turn_on
+    device_id: 0aba7117f46211eab9a3e56e96a3ac02
+    entity_id: light.hallway
+    domain: light
+  - delay: 00:03:00
+  - type: turn_off
+    device_id: 0aba7117f46211eab9a3e56e96a3ac02
+    entity_id: light.hallway
+    domain: light
   - service: automation.turn_off
     data: {}
     entity_id: automation.coming_home
@@ -481,8 +490,14 @@
     to: not_home
   condition:
   - condition: state
-    entity_id: automation.set_guest_mode
+    entity_id: input_boolean.guest_mode
     state: 'off'
+  - condition: state
+    entity_id: person.remco
+    state: not_home
+  - condition: state
+    entity_id: person.annemarie
+    state: not_home
   action:
   - service: light.turn_off
     data: {}
