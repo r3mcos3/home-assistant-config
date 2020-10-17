@@ -1,0 +1,8 @@
+---
+- platform: min_max
+  type: mean
+  name: Average Livingroom Temp
+  round_digits: 1
+  entity_ids:
+    - sensor.lumi_lumi_weather_96e8d702_temperature
+    - sensor.woonkamer_temperature
