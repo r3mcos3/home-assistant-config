@@ -5,3 +5,6 @@
 - platform: switch
   name: Closet Light
   entity_id: switch.closet_light
+- platform: switch
+  name: Kitchen Spots
+  entity_id: switch.kitchen_switch
