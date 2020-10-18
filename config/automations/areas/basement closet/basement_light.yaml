@@ -10,7 +10,7 @@
         - conditions:
             - condition: state
               entity_id: binary_sensor.basement_motion
-              state:  'on'
+              state: 'on'
           sequence:
             - service: light.turn_on
               data:
