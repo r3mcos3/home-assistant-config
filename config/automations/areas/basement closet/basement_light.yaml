@@ -1,0 +1,21 @@
+---
+- id: 85f7d9a4-f98f-4f1e-a018-a090fac5ea1c
+  alias: Basement - Basement Light
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.basement_motion
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.basement_motion
+              state:  'on'
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.basement_closet
+                brightness_pct: '75'
+      default:
+        - service: light.turn_off
+          entity_id: light.basement_closet

@@ -1,0 +1,12 @@
+---
+- id: 7c2d1ba1-a672-42ce-a5b7-d60220e3df46
+  alias: Bedroom Santi - Wled
+  trigger:
+    - platform: mqtt
+      topic: stat/Light_Switch_Santi/BUTTON1T
+      payload: '{"TRIG":"DOUBLE"}'
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.wled_santi
+        brightness: 128

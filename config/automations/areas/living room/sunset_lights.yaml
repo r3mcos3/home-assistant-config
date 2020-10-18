@@ -1,0 +1,29 @@
+---
+- id: 67614465-a5b9-42d1-8442-5df1914fb432
+  alias: Livingroom - Sunset
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sun.sun
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: below_horizon
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: person.remco
+                  state: home
+                - condition: state
+                  entity_id: person.annemarie
+                  state: home
+          sequence:
+            - service: light.turn_on
+              entity_id:
+                - light.closet_light
+                - light.kitchen_spots
+                - light.livingroom_spots
+            - service: scene.turn_on
+              entity_id: script.spots_brightness

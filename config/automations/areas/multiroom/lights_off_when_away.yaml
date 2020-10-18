@@ -1,0 +1,25 @@
+---
+- id: e7fb132b-4a25-4f22-b165-4c6dee8bdb07
+  alias: Multiroom - Lights Off When Away
+  mode: single
+  trigger:
+    platform: state
+    entity_id:
+      - person.remco
+      - person.annemarie
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: person.remco
+              state: 'not_home'
+            - condition: state
+              entity_id: person.annemarie
+              state: 'not_home'
+            - condition: state
+              entity_id: input_boolean.guest_mode
+              state: 'off'
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id: all

@@ -1,0 +1,35 @@
+---
+- id: d42a45d8-ad9e-447e-a986-204b6dbb7d7c
+  alias: Multiroom - Home Coming
+  mode: single
+  trigger:
+    platform: state
+    entity_id:
+      - device_tracker.iphone_van_marietje
+      - device_tracker.in2023
+      - sun.sun
+  action:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: below_horizon
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: device_tracker.iphone_van_marietje
+              state: home
+            - condition: state
+              entity_id: device_tracker.in2023
+              state: home
+        sequence:
+          - service: light.turn_on
+            entity_id:
+              - light.hallway
+              - light.closet_light
+              - light.kitchen_spots
+              - light.livingroom_spots
+      default:
+        - delay: 00:03:00
+        - service: light.turn_off
+          entity_id: light.hallway

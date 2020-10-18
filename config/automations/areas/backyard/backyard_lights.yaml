@@ -1,0 +1,16 @@
+---
+- id: c6b0ec6e-3872-4e58-b738-1daa266835eb
+  alias: Backyard - Backyard Lights
+  trigger:
+    - platform: mqtt
+      topic: stat/kitchen_switch/BUTTON1T
+      payload: '{"TRIG":"HOLD"}'
+  action:
+    - service: homeassistant.toggle
+      entity_id:
+        - light.patio
+        - light.garden
+        - light.barn_light
+        - light.small_barn_light
+        - light.flood_light
+        - switch.main_switch_backyard

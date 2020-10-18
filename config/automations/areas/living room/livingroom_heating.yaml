@@ -1,6 +1,7 @@
 ---
 - id: e50c1fcc-7515-4592-aea0-bd6e46b2693a
-  alias: Livingroom Heating
+  alias: Livingroom - Heating
+  mode: single
   trigger:
     - platform: homeassistant
       event: start
@@ -8,7 +9,7 @@
       event_type: automation_reloaded
     - platform: state
       entity_id:
-        - sensor.average_livingroom_temp
+        - sensor.livingroom_temp
         - person.remco
         - person.annemarie
         - input_number.below_temp
@@ -16,7 +17,7 @@
     - choose:
         - conditions:
             - condition: numeric_state
-              entity_id: sensor.average_livingroom_temp
+              entity_id: sensor.livingroom_temp
               below: input_number.below_temp
             - condition: time
               before: input_datetime.heating_stop

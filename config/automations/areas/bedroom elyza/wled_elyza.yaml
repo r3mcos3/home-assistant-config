@@ -1,0 +1,15 @@
+---
+- id: 5f228707-59cd-4f9c-b778-c486c24283fa
+  alias: Small Bedroom - Wled
+  mode: single
+  trigger:
+    - platform: event
+      event_type: zha_event
+      event_data:
+        unique_id: 'd0:cf:5e:ff:fe:ce:9f:b6:1:0x0008'
+        command: move_with_on_off
+  action:
+    - service: light.toggle
+      data:
+        entity_id: light.wled_elyza
+        brightness: 128
