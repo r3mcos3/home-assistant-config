@@ -1,0 +1,20 @@
+---
+- id: 1304570f-571d-46b4-9fde-7942afb49911
+  alias: Notify - Hacs Update
+  trigger:
+    - platform: event
+      event_type: hacs/repository
+      event_data:
+        action: registration
+  condition:
+    condition: template
+    value_template: "{{ trigger.event.data.repository is defined }}"
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: New repository in HACS
+        message: >-
+          {% set repo = trigger.event.data.repository %}
+          {% set id = trigger.event.data.repository_id %}
+          [{{ repo }}](/hacs/repository/{{ id }})
+          was just added to HACS.
