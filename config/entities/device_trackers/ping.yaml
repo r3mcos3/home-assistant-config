@@ -1,5 +1,5 @@
 ---
 - platform: ping
   hosts:
-    remco: !secret remco_ping
-    annemarie: !secret annemarie_ping
+    remco_ping: !secret remco_ping
+    annemarie_ping: !secret annemarie_ping
