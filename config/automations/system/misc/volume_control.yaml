@@ -3,10 +3,14 @@
   alias: Misc - Volume Control
   mode: single
   trigger:
-    platform: time
-    at:
-      - '08:30:00'
-      - '20:00:00'
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
+    - platform: time
+      at: input_datetime.volume_up
+    - platform: time
+      at: input_datetime.volume_down
   action:
     - choose:
         - conditions:

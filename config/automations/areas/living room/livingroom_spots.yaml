@@ -3,26 +3,30 @@
   alias: Livingroom - Spots
   mode: single
   trigger:
-    platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: '84:2e:14:ff:fe:47:66:63:1:0x0006'
-      command: 'on'
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
+    - platform: event
+      event_type: zha_event
+      event_data:
+        unique_id: '84:2e:14:ff:fe:47:66:63:1:0x0006'
+        command: 'on'
   action:
     - choose:
         - conditions:
             condition: state
-            entity_id: light.kitchen_spots
+            entity_id: light.livingroom_spots
             state: 'off'
           sequence:
             - service: light.turn_on
-              entity_id: light.kitchen_spots
-            - service: scene.turn_on
+              entity_id: light.livingroom_spots
+            - service: script.turn_on
               entity_id: script.spots_brightness
         - conditions:
             - condition: state
-              entity_id: light.kitchen_spots
+              entity_id: light.livingroom_spots
               state: 'on'
           sequence:
             - service: light.turn_off
-              entity_id: light.kitchen_spots
+              entity_id: light.livingroom_spots

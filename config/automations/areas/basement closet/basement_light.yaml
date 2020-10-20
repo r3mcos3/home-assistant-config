@@ -3,6 +3,10 @@
   alias: Basement - Basement Light
   mode: restart
   trigger:
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
     - platform: state
       entity_id: binary_sensor.basement_motion
   action:

@@ -3,11 +3,15 @@
   alias: Misc - Guest Mode
   mode: single
   trigger:
-    platform: state
-    entity_id:
-      - device_tracker.samsung_carla
-      - device_tracker.iphonevwendolyn
-      - device_tracker.samsung_louis
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
+    - platform: state
+      entity_id:
+        - device_tracker.samsung_carla
+        - device_tracker.iphonevwendolyn
+        - device_tracker.samsung_louis
   action:
     - choose:
         - conditions:

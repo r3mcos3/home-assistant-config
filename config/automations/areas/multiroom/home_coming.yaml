@@ -3,11 +3,15 @@
   alias: Multiroom - Home Coming
   mode: single
   trigger:
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
     - platform: state
       entity_id:
         - device_tracker.iphone_van_marietje
         - device_tracker.in2023
-        - sun.sun
+      to: home
   action:
     - choose:
         - conditions:
@@ -29,6 +33,15 @@
                 - light.closet_light
                 - light.kitchen_spots
                 - light.livingroom_spots
+            - service: automation.turn_off
+              entity_id: automation.multiroom_home_coming
+        - conditions:
+            - condition: state
+              entity_id: sun.sun
+              state: above_horizon
+          sequence:
+            - service: automation.turn_on
+              entity_id: automation.multiroom_home_coming
       default:
         - delay: 00:03:00
         - service: light.turn_off

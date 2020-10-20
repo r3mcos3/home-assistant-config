@@ -3,11 +3,11 @@
   alias: Main Bedroom - Light
   mode: single
   trigger:
-    platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: 'd0:cf:5e:ff:fe:ce:9f:b6:1:0x0006'
-      command: 'off'
+    - platform: event
+      event_type: zha_event
+      event_data:
+        unique_id: 'd0:cf:5e:ff:fe:ce:9f:b6:1:0x0006'
+        command: 'off'
   action:
     - service: light.toggle
       data:

@@ -22,4 +22,4 @@
               state: 'on'
           sequence:
             - service: switch.turn_on
-              entity_id: switch.wled_elyza_nightligh
+              entity_id: switch.wled_elyza_nightlight

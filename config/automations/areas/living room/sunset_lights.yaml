@@ -3,8 +3,13 @@
   alias: Livingroom - Sunset
   mode: single
   trigger:
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: automation_reloaded
     - platform: state
       entity_id: sun.sun
+      to: below_horizon
   action:
     - choose:
         - conditions:
@@ -25,5 +30,5 @@
                 - light.closet_light
                 - light.kitchen_spots
                 - light.livingroom_spots
-            - service: scene.turn_on
+            - service: script.turn_on
               entity_id: script.spots_brightness

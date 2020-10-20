@@ -13,6 +13,7 @@
         - person.remco
         - person.annemarie
         - input_number.below_temp
+        - input_number.set_temp
   action:
     - choose:
         - conditions:
@@ -35,7 +36,7 @@
               data:
                 entity_id: climate.woonkamer
                 hvac_mode: heat
-                temperature: 19
+                temperature: "{{ states('input_number.set_temp') }}"
       default:
         - service: climate.turn_off
           data:
