@@ -41,28 +41,3 @@ spots_brightness:
     entity_id: light.livingroom_spots
   mode: single
   icon: mdi:spotlight
-backyard_lights_script:
-  alias: Backyard Lights Script
-  sequence:
-  - type: turn_on
-    device_id: 4816d04af45c11eaaa422f9ea8c2efc1
-    entity_id: light.barn_light
-    domain: light
-  - type: turn_on
-    device_id: ac478478f45c11eaa577b3c31430ad0d
-    entity_id: light.small_barn_light
-    domain: light
-  - type: turn_on
-    device_id: 1ea97b16f45b11ea960391631ef5836e
-    entity_id: switch.flood_light
-    domain: switch
-  - type: turn_on
-    device_id: 94ff388afb5a11eaa3accf594cc9f12e
-    entity_id: switch.main_switch_backyard
-    domain: switch
-  - delay: 00:00:05
-  - service: light.turn_on
-    data: {}
-    entity_id: light.garden
-  mode: restart
-  icon: mdi:flower-outline
