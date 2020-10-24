@@ -1,0 +1,33 @@
+---
+- id: 8bdca014-2ae2-424b-b9a5-9dff0691f942
+  alias: Notify - Home Assistant Started
+  mode: single
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        message: Home Assistant Is Starting Up!
+
+- id: 6ee53796-b946-406d-b7be-b8c909fbb35a
+  alias: Notify - Automations Reloaded
+  mode: single
+  trigger:
+    - platform: event
+      event_type: automation_reloaded
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        message: Home Asssitant Reloaded All Automations
+
+- id: 030c4a7d-5eea-4ddf-8bc0-3f72e44dac07
+  alias: Notify - Home Asistant Shutdown
+  mode: single
+  trigger:
+    - platform: homeassistant
+      event: shutdown
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        message: Home Assistant Is Shutting Down... Bye!

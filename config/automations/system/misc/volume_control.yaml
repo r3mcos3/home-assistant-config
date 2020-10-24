@@ -7,10 +7,8 @@
       event: start
     - platform: event
       event_type: automation_reloaded
-    - platform: time
-      at: input_datetime.volume_up
-    - platform: time
-      at: input_datetime.volume_down
+    - platform: time_pattern
+      minutes: "/30"
   action:
     - choose:
         - conditions:

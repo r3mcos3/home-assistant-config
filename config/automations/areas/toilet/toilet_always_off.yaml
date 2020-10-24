@@ -1,0 +1,18 @@
+---
+- id: 45ad0d2e-7b61-4ce1-b299-3e1e1f8a906f
+  alias: Toilet - Always Goes Off
+  trigger:
+    - platform: state
+      entity_id: switch.toilet_light
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: switch.toilet_light
+              state: 'on'
+          sequence:
+            - delay: 00:05:00
+            - service: switch.turn_off
+              data:
+                entity_id: switch.toilet_light
+

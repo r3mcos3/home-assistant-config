@@ -12,12 +12,22 @@
         - device_tracker.iphone_van_marietje
         - device_tracker.in2023
       to: home
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
   action:
     - choose:
         - conditions:
             - condition: state
               entity_id: sun.sun
               state: below_horizon
+            - condition: state
+              entity_id:
+                - light.hallway
+                - light.closet_light
+                - light.kitchen_spots
+                - light.livingroom_spots
+              state: 'off'
             - condition: or
               conditions:
                 - condition: state
@@ -33,16 +43,6 @@
                 - light.closet_light
                 - light.kitchen_spots
                 - light.livingroom_spots
-            - service: automation.turn_off
-              entity_id: automation.multiroom_home_coming
-        - conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: above_horizon
-          sequence:
-            - service: automation.turn_on
-              entity_id: automation.multiroom_home_coming
-      default:
-        - delay: 00:03:00
-        - service: light.turn_off
-          entity_id: light.hallway
+            - delay: 00:03:00
+            - service: light.turn_off
+              entity_id: light.hallway

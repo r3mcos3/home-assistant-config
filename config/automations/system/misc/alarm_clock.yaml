@@ -2,8 +2,9 @@
 - id: 162ba435-f77a-4753-9ce9-9accd7ce949a
   alias: Misc - Alarm Clock
   trigger:
-    - platform: time
-      at: input_datetime.morning_lights
+    - platform: state
+      entity_id: binary_sensor.next_alarm
+      to: 'on'
   condition:
     - condition: state
       entity_id: binary_sensor.workday_sensor

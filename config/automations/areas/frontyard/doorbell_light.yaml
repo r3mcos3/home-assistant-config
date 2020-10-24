@@ -1,0 +1,23 @@
+---
+- id: 295e8ef6-63cd-428e-b7e3-e839e9864458
+  alias: Frontyard - Doorbell Light
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.voordeur_ding
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.voordeur_ding
+              state: 'on'
+            - condition: state
+              entity_id: sun.sun
+              state: below_horizon
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.hallway
+      default:
+        - delay: 00:05:00
+        - service: light.turn_off
+          entity_id: light.hallway

@@ -3,10 +3,6 @@
   alias: Livingroom - Spots
   mode: single
   trigger:
-    - platform: homeassistant
-      event: start
-    - platform: event
-      event_type: automation_reloaded
     - platform: event
       event_type: zha_event
       event_data:
