@@ -1,0 +1,28 @@
+---
+alias: Spot Brightness
+mode: single
+sequence:
+  - service: light.toggle # light out
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
+  - service: light.toggle # light on
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
+  - service: light.toggle # light out
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
+  - service: light.toggle # light on
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
+  - service: light.toggle # light out
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
+  - service: light.toggle # light on
+    entity_id: light.livingroom_spots
+  - delay:
+      seconds: '0.5'
