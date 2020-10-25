@@ -1,0 +1,16 @@
+---
+- id: c74335e4-99a6-4f52-9310-c7f6dbd54666
+  alias: Livingroom - Low Brightness
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: light.livingroom_spots
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: light.livingroom_spots
+              state: 'on'
+          sequence:
+            - service: script.turn_on
+              entity_id: script.spot_brightness

@@ -36,5 +36,3 @@
                 - light.closet_light
                 - light.kitchen_spots
                 - light.livingroom_spots
-            - service: script.turn_on
-              entity_id: script.spots_brightness

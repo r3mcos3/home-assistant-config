@@ -7,9 +7,6 @@
       minutes: 12
   action:
     - service: recorder.purge
-    - service: notify.mobile_app_in2023
-      data:
-        message: Database Purged!
 
 - id: 08569ccf-f4e9-4e83-a735-852e66ac7a2a
   alias: Misc - Database Repack

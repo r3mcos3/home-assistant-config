@@ -9,16 +9,16 @@
       event_type: automation_reloaded
     - platform: state
       entity_id:
-        - person.remco
-        - person.annemarie
+        - device_tracker.in2023
+        - device_tracker.iphone_van_marietje
   action:
     - choose:
         - conditions:
             - condition: state
-              entity_id: person.remco
+              entity_id: device_tracker.in2023
               state: 'not_home'
             - condition: state
-              entity_id: person.annemarie
+              entity_id: device_tracker.iphone_van_marietje
               state: 'not_home'
             - condition: state
               entity_id: input_boolean.guest_mode
