@@ -1,0 +1,7 @@
+---
+sensor.beta:
+  icon: mdi:home-assistant
+sensor.installed:
+  icon: mdi:home-assistant
+sensor.stable:
+  icon: mdi:home-assistant

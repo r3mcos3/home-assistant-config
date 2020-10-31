@@ -1,4 +1,3 @@
 ---
 homeassistant:
-  customize: !include ../customize.yaml
-  legacy_templates: true
+  customize: !include_dir_merge_named ../customizations/entities
