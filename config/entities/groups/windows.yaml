@@ -1,0 +1,8 @@
+---
+windows:
+  name: Windows
+  entities:
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.santi_bedroom_window_sensor
+    - binary_sensor.small_bedroom_window_sensor
+    - binary_sensor.bathroom_window_sensor
