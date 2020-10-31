@@ -17,7 +17,7 @@
     - platform: event
       event_type: automation_reloaded
   action:
-    - service: notify.mobile_app_in2023
+    - service: persistent_notification.create
       data:
         message: Home Asssitant Reloaded All Automations
 
