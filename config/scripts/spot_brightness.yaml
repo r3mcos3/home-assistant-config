@@ -2,27 +2,27 @@
 alias: Spot Brightness
 mode: single
 sequence:
-  - service: light.toggle # light out
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
-  - service: light.toggle # light on
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
-  - service: light.toggle # light out
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
-  - service: light.toggle # light on
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
-  - service: light.toggle # light out
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
-  - service: light.toggle # light on
+  - service: light.toggle
     entity_id: light.livingroom_spots
   - delay:
       milliseconds: '500'
