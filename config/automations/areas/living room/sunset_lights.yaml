@@ -8,20 +8,22 @@
     - platform: event
       event_type: automation_reloaded
     - platform: state
-      entity_id: sun.sun
-      to: below_horizon
+      entity_id: sensor.lux_sensor
   action:
     - choose:
         - conditions:
+            - condition: time
+              after: '16:00:00'
+              before: '21:00:00'
             - condition: state
               entity_id:
                 - light.closet_light
                 - light.kitchen_spots
                 - light.livingroom_spots
               state: 'off'
-            - condition: state
-              entity_id: sun.sun
-              state: below_horizon
+            - condition: numeric_state
+              entity_id: sensor.lux_sensor
+              below: 4.0
             - condition: or
               conditions:
                 - condition: state
