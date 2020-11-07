@@ -1,0 +1,14 @@
+---
+platform: doods
+url: http://10.10.50.64:8080
+detector: default
+scan_interval: 43200
+source:
+  - entity_id: camera.voordeur
+file_out: /config/www/{{ camera_entity.split('.')[1] }}_latest.jpg
+confidence: 60
+labels:
+  - name: person
+    confidence: 70
+  # - name: car
+  #   confidence: 70

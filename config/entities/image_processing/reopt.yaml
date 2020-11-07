@@ -1,0 +1,12 @@
+---
+platform: doods
+url: http://10.10.50.64:8080
+detector: default
+scan_interval: 5
+source:
+  - entity_id: camera.reopt
+file_out: /config/www/{{ camera_entity.split('.')[1] }}_latest.jpg
+confidence: 60
+labels:
+  - name: person
+    confidence: 65
