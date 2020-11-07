@@ -1,11 +1,13 @@
 ---
 - id: b4e62d03-1fd7-4ca8-9b09-6ab19d737324
   alias: Hallway - Light On When Dark
+  mode: single
   trigger:
     - platform: state
       entity_id:
         - device_tracker.in2023
         - device_tracker.iphone_van_marietje
+      to: home
   action:
     - choose:
         - conditions:

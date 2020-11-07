@@ -4,8 +4,8 @@
   trigger:
     - platform: state
       entity_id:
-        - device_tracker.in2023
-        - device_tracker.iphone_van_marietje
+        - person.remco
+        - person.annemarie
       to: not_home
     - platform: state
       entity_id: input_boolean.guest_mode
@@ -14,10 +14,13 @@
     choose:
       - conditions:
           - condition: state
-            entity_id: device_tracker.in2023
+            entity_id: group.all_lights
+            state: 'on'
+          - condition: state
+            entity_id: person.remco
             state: not_home
           - condition: state
-            entity_id: device_tracker.iphone_van_marietje
+            entity_id: person.annemarie
             state: not_home
           - condition: state
             entity_id: input_boolean.guest_mode

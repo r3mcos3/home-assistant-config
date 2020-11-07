@@ -8,12 +8,13 @@
     - choose:
         - conditions:
             - condition: state
+              entity_id: sun.sun
+              state: 'below_horizon'
+            - condition: state
               entity_id: binary_sensor.kitchen_door_sensor
               state: 'on'
             - condition: state
-              entity_id:
-                - light.patio_led_1
-                - light.patio_led_2
+              entity_id: light.patio
               state: 'off'
           sequence:
             - service: light.turn_on
@@ -21,9 +22,20 @@
                 entity_id:
                   - light.patio_led_1
                   - light.patio_led_2
-      default:
-        - service: light.turn_off
-          data:
-            entity_id:
-              - light.patio_led_1
-              - light.patio_led_2
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.kitchen_door_sensor
+              state: 'off'
+            - condition: state
+              entity_id:
+                - light.patio_led_3
+                - light.patio_led_4
+                - light.patio_led_5
+                - light.patio_led_6
+              state: 'off'
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id:
+                  - light.patio_led_1
+                  - light.patio_led_2

@@ -7,8 +7,9 @@
       event: start
     - platform: event
       event_type: automation_reloaded
-    - platform: state
+    - platform: numeric_state
       entity_id: sensor.lux_sensor
+      below: 4.0
   action:
     - choose:
         - conditions:
