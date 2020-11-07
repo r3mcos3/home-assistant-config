@@ -1,0 +1,4 @@
+---
+platform: generic
+name: Frontdoor Processed
+still_image_url: http://10.10.50.64:8123/local/voordeur_latest.jpg

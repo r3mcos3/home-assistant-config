@@ -1,0 +1,4 @@
+---
+platform: ffmpeg
+name: ReoPT
+input: !secret stream_url
