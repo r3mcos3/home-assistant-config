@@ -1,0 +1,28 @@
+---
+- id: c4ef862a-b7b7-4a5b-98eb-bbd0826bd2a7
+  alias: Backyard - Person Spotted
+  trigger:
+    - platform: state
+      entity_id: image_processing.doods_reopt
+      attribute: total_mtaches
+      from: 0
+  condition:
+    - condition: state
+      entity_id:
+        - person.annemarie
+        - person.remco
+      state: not_home
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: 'off'
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        title: Person Spotted Backyard!!
+        message: Suspicious Person Spotted And Nobody Home!!!!
+        data:
+          image: /local/reopt_latest.jpg
+          clickAction: /lovelace/cameras
+          actions:
+            - action: DISMISS
+              title: Dismiss

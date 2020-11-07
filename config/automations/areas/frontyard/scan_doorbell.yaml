@@ -1,0 +1,31 @@
+---
+- id: ced6732d-5873-44c4-9fbf-5548f98a2984
+  alias: Frontyard - Doorbell Scan
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.voordeur_motion
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.voordeur_ding
+      to: 'on'
+  action:
+    - service: image_processing.scan
+      entity_id: image_processing.doods_voordeur
+- id: 94531fcf-10ff-4bbb-8e72-e1166081684a
+  alias: Frontyard - Person Detected
+  trigger:
+    - platform: numeric_state
+      entity_id: image_processing.doods_voordeur
+      attribute: total_matches
+      above: 0
+  action:
+    - service: notify.mobile_app_in2023
+      data:
+        title: Person Spotted
+        message: Person In The Frontyard
+        data:
+          image: /local/voordeur_latest.jpg
+          clickAction: /lovelace/cameras
+          actions:
+            - action: DISMISS
+              title: Dismiss
