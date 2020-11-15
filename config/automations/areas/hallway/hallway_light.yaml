@@ -8,6 +8,9 @@
         - device_tracker.in2023
         - device_tracker.iphone_van_marietje
       to: home
+    - platform: state
+      entity_id: light.hallway
+      to: 'on'
   action:
     - choose:
         - conditions:
@@ -26,8 +29,11 @@
             - service: light.turn_on
               data:
                 entity_id: light.hallway
-      default:
-        - delay: 00:05:00
-        - service: light.turn_off
-          data:
-            entity_id: light.hallway
+        - conditions:
+            - condition: state
+              entity_id: light.hallway
+              state: 'on'
+          sequence:
+            - delay: 00:05:00
+            - service: light.turn_off
+              entity_id: light.hallway
