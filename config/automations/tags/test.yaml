@@ -1,9 +1,0 @@
----
-- id: de899b2f-d26e-4b91-99e1-54f5f1148452
-  alias: Tag - Test
-  trigger:
-    - platform: tag
-      tag_id: 7e94c578-059c-4fba-893f-f0b67439a9f4
-  action:
-    - service: light.toggle
-      entity_id: light.closet_light

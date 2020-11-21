@@ -1,1 +1,739 @@
-[]
+- id: '1605949391601'
+  alias: Toilet - Light
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id:
+    - binary_sensor.toilet_motion
+    - switch.toilet_light
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.toilet_motion
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        entity_id: switch.toilet_light
+    default:
+    - delay: 00:05:00
+    - service: switch.turn_off
+      entity_id: switch.toilet_light
+  mode: restart
+- id: '1605982972469'
+  alias: Toilet - Always Goes Off
+  trigger:
+  - platform: state
+    entity_id: switch.toilet_light
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.toilet_light
+        state: 'on'
+      sequence:
+      - delay: 00:05:00
+      - service: switch.turn_off
+        data:
+          entity_id: switch.toilet_light
+    default:
+    - service: switch.turn_off
+      entity_id: switch.toilet_light
+- id: '1605983059228'
+  alias: Attic - Attic Light
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
+      command: move
+  action:
+  - service: light.toggle
+    entity_id: light.attic
+- id: '1605983110471'
+  alias: Backyard - Backyard Lights
+  trigger:
+  - platform: mqtt
+    topic: stat/kitchen_switch/BUTTON1T
+    payload: '{"TRIG":"HOLD"}'
+  action:
+  - service: homeassistant.toggle
+    entity_id:
+    - light.patio
+    - light.garden
+    - light.barn_light
+    - light.small_barn_light
+    - light.flood_light
+    - switch.main_switch_backyard
+- id: '1605983139499'
+  alias: Backyard - Person Spotted
+  trigger:
+  - platform: state
+    entity_id: image_processing.doods_reopt
+    attribute: total_mtaches
+    from: 0
+  condition:
+  - condition: state
+    entity_id:
+    - person.annemarie
+    - person.remco
+    state: not_home
+  - condition: state
+    entity_id: input_boolean.guest_mode
+    state: 'off'
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      title: Person Spotted Backyard!!
+      message: Suspicious Person Spotted And Nobody Home!!!!
+      data:
+        image: /local/reopt_latest.jpg
+        clickAction: /lovelace/cameras
+        actions:
+        - action: DISMISS
+          title: Dismiss
+- id: '1605983172224'
+  alias: Barn - Barn Light Switch
+  trigger:
+  - platform: mqtt
+    topic: stat/main_switch_backyard/BUTTON1T
+    payload: '{"TRIG":"HOLD"}'
+  action:
+  - service: light.toggle
+    entity_id:
+    - light.small_barn_light
+    - light.barn_light
+- id: '1605983218605'
+  alias: Basement - Basement Light
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id: binary_sensor.basement_motion
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.basement_motion
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.basement_closet
+          brightness_pct: '75'
+    default:
+    - service: light.turn_off
+      entity_id: light.basement_closet
+  mode: restart
+- id: '1605983248394'
+  alias: Small Bedroom - Light
+  trigger:
+    platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
+      command: 'on'
+  action:
+  - service: light.toggle
+    data:
+      entity_id: light.small_bedroom_light
+  mode: single
+- id: '1605983272675'
+  alias: Small Bedroom - Wled
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
+      command: move_with_on_off
+  action:
+  - service: light.toggle
+    data:
+      entity_id: light.wled_elyza
+      brightness: 128
+  mode: single
+- id: '1605983309460'
+  alias: Bedroom Santi - Wled
+  trigger:
+  - platform: mqtt
+    topic: stat/Light_Switch_Santi/BUTTON1T
+    payload: '{"TRIG":"DOUBLE"}'
+  action:
+  - service: light.toggle
+    data:
+      entity_id: light.wled_santi
+      brightness: 128
+- id: '1605983336893'
+  alias: Frontyard - Doorbell Light
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.voordeur_ding
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.voordeur_ding
+        state: 'on'
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.hallway
+    default:
+    - delay: 00:05:00
+    - service: light.turn_off
+      entity_id: light.hallway
+- id: '1605983513461'
+  alias: Livingroom - Heating
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id:
+    - sensor.livingroom_temp
+    - person.remco
+    - person.annemarie
+    - input_number.below_temp
+    - input_number.set_temp
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.livingroom_temp
+        below: input_number.below_temp
+      - condition: time
+        before: input_datetime.heating_stop
+        after: input_datetime.heating_start
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.annemarie
+          state: home
+        - condition: state
+          entity_id: person.remco
+          state: home
+      sequence:
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.woonkamer
+          hvac_mode: heat
+          temperature: '{{ states(''input_number.set_temp'') }}'
+    default:
+    - service: climate.turn_off
+      data:
+        entity_id: climate.woonkamer
+  mode: single
+- id: '1605983538317'
+  alias: Livingroom - Spots
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 84:2e:14:ff:fe:47:66:63:1:0x0006
+      command: 'on'
+  action:
+  - choose:
+    - conditions:
+        condition: state
+        entity_id: light.livingroom_spots
+        state: 'off'
+      sequence:
+      - service: light.turn_on
+        entity_id: light.livingroom_spots
+    - conditions:
+      - condition: state
+        entity_id: light.livingroom_spots
+        state: 'on'
+      sequence:
+      - service: light.turn_off
+        entity_id: light.livingroom_spots
+  mode: single
+- id: '1605983631120'
+  alias: Livingroom - Sunset
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: numeric_state
+    entity_id: sensor.lux_sensor
+    below: 4
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        after: '16:00:00'
+        before: '21:00:00'
+      - condition: state
+        entity_id:
+        - light.closet_light
+        - light.kitchen_spots
+        - light.livingroom_spots
+        state: 'off'
+      - condition: numeric_state
+        entity_id: sensor.lux_sensor
+        below: 4
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.remco
+          state: home
+        - condition: state
+          entity_id: person.annemarie
+          state: home
+      sequence:
+      - service: light.turn_on
+        entity_id:
+        - light.closet_light
+        - light.kitchen_spots
+        - light.livingroom_spots
+  mode: single
+- id: '1605983658169'
+  alias: Main Bedroom - Cover Close
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
+      command: down_close
+  action:
+  - service: cover.close_cover
+    data:
+      entity_id: cover.main_bedroom_cover
+  mode: single
+- id: '1605983694066'
+  alias: Main Bedroom - Cover Open
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
+      command: up_open
+  action:
+  - service: cover.open_cover
+    data:
+      entity_id: cover.main_bedroom_cover
+  mode: single
+- id: '1605983717743'
+  alias: Main Bedroom - Light
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
+      command: 'off'
+  action:
+  - service: light.toggle
+    data:
+      entity_id: light.main_bedroom_light
+  mode: single
+- id: '1605983816671'
+  alias: Multiroom - Home Coming
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id:
+    - device_tracker.iphone_van_marietje
+    - device_tracker.in2023
+    to: home
+  - platform: state
+    entity_id: sun.sun
+    to: above_horizon
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      - condition: state
+        entity_id:
+        - light.closet_light
+        - light.kitchen_spots
+        - light.livingroom_spots
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: device_tracker.iphone_van_marietje
+          state: home
+        - condition: state
+          entity_id: device_tracker.in2023
+          state: home
+      sequence:
+      - service: light.turn_on
+        entity_id:
+        - light.closet_light
+        - light.kitchen_spots
+        - light.livingroom_spots
+  mode: single
+- id: '1605983905990'
+  alias: Multiroom - Wled Nightlights
+  trigger:
+  - platform: state
+    entity_id:
+    - light.wled_elyza
+    - light.wled_santi
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.wled_santi
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        entity_id: switch.wled_santi_nightlight
+    - conditions:
+      - condition: state
+        entity_id: light.wled_elyza
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        entity_id: switch.wled_elyza_nightlight
+  mode: single
+- id: '1605983936127'
+  alias: Multiroom - Lights Off When Away
+  trigger:
+  - platform: state
+    entity_id:
+    - person.remco
+    - person.annemarie
+    to: not_home
+  - platform: state
+    entity_id: input_boolean.guest_mode
+    to: 'off'
+  action:
+    choose:
+    - conditions:
+      - condition: state
+        entity_id: group.all_lights
+        state: 'on'
+      - condition: state
+        entity_id: person.remco
+        state: not_home
+      - condition: state
+        entity_id: person.annemarie
+        state: not_home
+      - condition: state
+        entity_id: input_boolean.guest_mode
+        state: 'off'
+      sequence:
+      - service: homeassistant.turn_off
+        entity_id: group.all_lights
+      - service: notify.mobile_app_in2023
+        data:
+          title: Lights Turned Off!!
+          message: Home Assistant Turned The Lights Off!!
+- id: '1605983963164'
+  alias: WLED Effect
+  trigger:
+  - platform: state
+    entity_id: input_select.wled_effect
+  - platform: state
+    entity_id: input_number.wled_intensity
+  - platform: state
+    entity_id: input_select.wled_palette
+  - platform: state
+    entity_id: input_number.wled_speed
+  - platform: state
+    entity_id: input_boolean.wled_reverse
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: script.wled_effect
+  mode: single
+- id: '1605983987205'
+  alias: Patio - Recycle Bin Light
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_door_sensor
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sun.sun
+        state: below_horizon
+      - condition: state
+        entity_id: binary_sensor.kitchen_door_sensor
+        state: 'on'
+      - condition: state
+        entity_id: light.patio
+        state: 'off'
+      sequence:
+      - service: light.turn_on
+        data:
+          entity_id:
+          - light.patio_led_1
+          - light.patio_led_2
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.kitchen_door_sensor
+        state: 'off'
+      - condition: state
+        entity_id:
+        - light.patio_led_3
+        - light.patio_led_4
+        - light.patio_led_5
+        - light.patio_led_6
+        state: 'off'
+      sequence:
+      - service: light.turn_off
+        data:
+          entity_id:
+          - light.patio_led_1
+          - light.patio_led_2
+- id: '1605984035171'
+  alias: Misc - Alarm Clock
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.next_alarm
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.morning_lights
+- id: '1605984068016'
+  alias: Misc - Guest Mode
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id:
+    - device_tracker.samsung_carla
+    - device_tracker.iphonevwendolyn
+    - device_tracker.samsung_louis
+  action:
+  - choose:
+    - conditions:
+        condition: state
+        entity_id: device_tracker.samsung_carla
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_mode
+    - conditions:
+        condition: state
+        entity_id: device_tracker.iphonevwendolyn
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_mode
+    - conditions:
+        condition: state
+        entity_id: device_tracker.samsung_louis
+        state: home
+      sequence:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.guest_mode
+    default:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.guest_mode
+  mode: single
+- id: '1605984089065'
+  alias: Misc - Recorder Purged Database
+  trigger:
+  - platform: time_pattern
+    minutes: 12
+  action:
+  - service: recorder.purge
+  mode: single
+- id: '1605984106973'
+  alias: Misc - Database Repack
+  trigger:
+  - platform: time
+    at: 05:55
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  action:
+  - service: recorder.purge
+    data:
+      repack: true
+  - service: notify.mobile_app_in2023
+    data:
+      message: Database Repacked!
+  mode: single
+- id: '1605984136894'
+  alias: Misc - Volume Control
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: time_pattern
+    minutes: /30
+  action:
+  - choose:
+    - conditions:
+      - condition: time
+        before: input_datetime.volume_down
+        after: input_datetime.volume_up
+      sequence:
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.5
+          entity_id:
+          - media_player.google_hub
+          - media_player.keuken_speaker
+          - media_player.woonkamer_speaker
+          - media_player.huiskamer
+          - media_player.serre
+    - conditions:
+      - condition: time
+        before: input_datetime.volume_up
+        after: input_datetime.volume_down
+      sequence:
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.2
+          entity_id:
+          - media_player.google_hub
+          - media_player.keuken_speaker
+          - media_player.woonkamer_speaker
+          - media_player.huiskamer
+          - media_player.serre
+  mode: single
+- id: '1605984175952'
+  alias: Notify - Hacs Repo Added
+  trigger:
+  - platform: state
+    entity_id: sensor.hacs
+  condition:
+  - condition: template
+    value_template: '{{ states(trigger.entity_id) != ''unknown''}}'
+  - condition: template
+    value_template: '{{ (states(trigger.entity_id) | float) != 0}}'
+  action:
+  - service: persistent_notification.create
+    data_template:
+      title: Updates pending in HACS
+      message: "{% for repo in state_attr(trigger.entity_id, 'repositories') %}\n\
+        \  **{{ repo.display_name }}** _{{ repo[\"installed_version\"] }}_ -> _{{\
+        \ repo[\"available_version\"] }}_\n{% endfor %}"
+- id: '1605984200825'
+  alias: Notify - Hacs Update
+  trigger:
+  - platform: event
+    event_type: hacs/repository
+    event_data:
+      action: registration
+  condition:
+    condition: template
+    value_template: '{{ trigger.event.data.repository is defined }}'
+  action:
+  - service: persistent_notification.create
+    data_template:
+      title: New repository in HACS
+      message: '{% set repo = trigger.event.data.repository %} {% set id = trigger.event.data.repository_id
+        %} [{{ repo }}](/hacs/repository/{{ id }}) was just added to HACS.'
+- id: '1605984226753'
+  alias: Notify - New Version Available
+  trigger:
+  - platform: state
+    entity_id: sensor.beta
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      title: New HA Version Available
+      message: Home Assistant Version {{states('sensor.beta')}} Is Now Available
+- id: '1605984262914'
+  alias: Notify - Home Assistant Started
+  trigger:
+  - platform: homeassistant
+    event: start
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      message: Home Assistant Is Starting Up!
+  mode: single
+- id: '1605984282844'
+  alias: Notify - Automations Reloaded
+  trigger:
+  - platform: event
+    event_type: automation_reloaded
+  action:
+  - service: persistent_notification.create
+    data:
+      message: Home Asssitant Reloaded All Automations
+  mode: single
+- id: '1605984300810'
+  alias: Notify - Home Asistant Shutdown
+  trigger:
+  - platform: homeassistant
+    event: shutdown
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      message: Home Assistant Is Shutting Down... Bye!
+  mode: single
+- id: '1605984351913'
+  alias: Notify - Window/Door Open When Away
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  - platform: state
+    entity_id:
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.santi_bedroom_window_sensor
+    - binary_sensor.small_bedroom_window_sensor
+    - binary_sensor.bathroom_window_sensor
+    - binary_sensor.kitchen_door_sensor
+    - binary_sensor.frontdoor_door_sensor
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: person.annemarie
+        state: not_home
+      - condition: state
+        entity_id: person.remco
+        state: not_home
+      - condition: state
+        entity_id:
+        - binary_sensor.main_bedroom_window_sensor
+        - binary_sensor.santi_bedroom_window_sensor
+        - binary_sensor.small_bedroom_window_sensor
+        - binary_sensor.bathroom_window_sensor
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_in2023
+        data:
+          title: Window Open!!!
+          message: ' ''{{ trigger.to_state.name }}'' Is Open!!!'
+    - conditions:
+      - condition: state
+        entity_id: person.annemarie
+        state: not_home
+      - condition: state
+        entity_id: person.remco
+        state: not_home
+      - condition: state
+        entity_id:
+        - binary_sensor.kitchen_door_sensor
+        - binary_sensor.frontdoor_door_sensor
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_in2023
+        data:
+          title: Door Open!!!
+          message: ' ''{{ trigger.to_state.name }}'' Is Open!!!'
