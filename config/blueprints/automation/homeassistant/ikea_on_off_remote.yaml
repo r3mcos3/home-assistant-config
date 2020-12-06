@@ -1,0 +1,84 @@
+---
+blueprint:
+  name: IKEA On/Off Remote
+  domain: automation
+  input:
+    remote:
+      name: Remote
+      description: IKEA remote to use
+      selector:
+        device:
+          integration: zha
+          manufacturer: IKEA of Sweden
+          model: TRADFRI on/off switch
+    light:
+      name: Light(s)
+      description: The lights(s) to control
+      selector:
+        target:
+          entity:
+            domain: light
+    on_button:
+      name: On button - short press
+      description: Action to run on short press
+      default: []
+      selector:
+        action:
+    on_button_long:
+      name: On button - long press
+      description: Action to run on long press
+      default: []
+      selector:
+        action:
+    off_button:
+      name: Off button - short press
+      description: Action to run on short press
+      default: []
+      selector:
+        action:
+    off_button_long:
+      name: Off button - long press
+      description: Action to run on long press
+      default: []
+      selector:
+        action:
+
+mode: single
+max_exceeded: silent
+
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input remote
+
+action:
+  - variables:
+      command: "{{ trigger.event.data.command }}"
+      cluster_id: "{{ trigger.event.data.cluster_id }}"
+      endpoint_id: "{{ trigger.event.data.endpoint_id }}"
+      args: "{{ trigger.event.data.args }}"
+
+  - choose:
+    - conditions:
+        - "{{ command == 'on' }}"
+        - "{{ cluster_id == 6 }}"
+        - "{{ endpoint_id == 1 }}"
+      sequence: !input on_button
+    - conditions:
+        - "{{ command == 'move_with_on_off' }}"
+        - "{{ cluster_id == 8 }}"
+        - "{{ endpoint_id == 1 }}"
+        - "{{ args == [0, 83] }}"
+      sequence: !input on_button_long
+    - conditions:
+      - "{{ command == 'off' }}"
+      - "{{ cluster_id == 6 }}"
+      - "{{ endpoint_id == 1 }}"
+      sequence: !input off_button
+    - conditions:
+      - "{{ command == 'move' }}"
+      - "{{ cluster_id == 8 }}"
+      - "{{ endpoint_id == 1 }}"
+      - "{{ args == [1, 83] }}"
+      sequence: !input off_button_long
