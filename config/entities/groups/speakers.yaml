@@ -1,0 +1,8 @@
+---
+all_speakers:
+  name: All Speakers
+  entities:
+    - media_player.huiskamer
+    - media_player.serre
+    - media_player.keuken_speaker
+    - media_player.woonkamer_speaker
