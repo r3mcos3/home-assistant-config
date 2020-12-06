@@ -23,78 +23,39 @@
     - service: switch.turn_off
       entity_id: switch.toilet_light
   mode: restart
-- id: '1605982972469'
-  alias: Toilet - Always Goes Off
-  trigger:
-  - platform: state
-    entity_id: switch.toilet_light
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: switch.toilet_light
-        state: 'on'
-      sequence:
-      - delay: 00:05:00
-      - service: switch.turn_off
-        data:
-          entity_id: switch.toilet_light
-    default:
-    - service: switch.turn_off
-      entity_id: switch.toilet_light
-- id: '1605983059228'
-  alias: Attic - Attic Light
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
-      command: move
-  action:
-  - service: light.toggle
-    entity_id: light.attic
 - id: '1605983110471'
   alias: Backyard - Backyard Lights
   trigger:
-  - platform: mqtt
-    topic: stat/kitchen_switch/BUTTON1T
-    payload: '{"TRIG":"HOLD"}'
+  - platform: device
+    domain: tasmota
+    device_id: aac3d2a9098611eb82f1737572196896
+    type: button_long_press
+    subtype: button_1
+    discovery_id: D8F15BE77D0A_button_1_HOLD
   action:
-  - service: homeassistant.toggle
-    entity_id:
-    - light.patio
-    - light.garden
-    - light.barn_light
-    - light.small_barn_light
-    - light.flood_light
-    - switch.main_switch_backyard
-- id: '1605983139499'
-  alias: Backyard - Person Spotted
-  trigger:
-  - platform: state
-    entity_id: image_processing.doods_reopt
-    attribute: total_mtaches
-    from: 0
-  condition:
-  - condition: state
-    entity_id:
-    - person.annemarie
-    - person.remco
-    state: not_home
-  - condition: state
-    entity_id: input_boolean.guest_mode
-    state: 'off'
-  action:
-  - service: notify.mobile_app_in2023
-    data:
-      title: Person Spotted Backyard!!
-      message: Suspicious Person Spotted And Nobody Home!!!!
-      data:
-        image: /local/reopt_latest.jpg
-        clickAction: /lovelace/cameras
-        actions:
-        - action: DISMISS
-          title: Dismiss
+  - service: light.toggle
+    data: {}
+    entity_id: light.patio
+  - service: switch.toggle
+    data: {}
+    entity_id: switch.main_switch_backyard
+  - type: toggle
+    device_id: 4816d04af45c11eaaa422f9ea8c2efc1
+    entity_id: light.barn_light
+    domain: light
+  - type: toggle
+    device_id: ac478478f45c11eaa577b3c31430ad0d
+    entity_id: light.small_barn_light
+    domain: light
+  - delay: 00:00:05
+  - type: turn_on
+    device_id: 1ea97b16f45b11ea960391631ef5836e
+    entity_id: switch.flood_light
+    domain: switch
+  - service: light.toggle
+    data: {}
+    entity_id: light.garden
+  mode: single
 - id: '1605983172224'
   alias: Barn - Barn Light Switch
   trigger:
@@ -130,44 +91,21 @@
     - service: light.turn_off
       entity_id: light.basement_closet
   mode: restart
-- id: '1605983248394'
-  alias: Small Bedroom - Light
-  trigger:
-    platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
-      command: 'on'
-  action:
-  - service: light.toggle
-    data:
-      entity_id: light.small_bedroom_light
-  mode: single
-- id: '1605983272675'
-  alias: Small Bedroom - Wled
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0008
-      command: move_with_on_off
-  action:
-  - service: light.toggle
-    data:
-      entity_id: light.wled_elyza
-      brightness: 128
-  mode: single
 - id: '1605983309460'
   alias: Bedroom Santi - Wled
   trigger:
-  - platform: mqtt
-    topic: stat/Light_Switch_Santi/BUTTON1T
-    payload: '{"TRIG":"DOUBLE"}'
+  - platform: device
+    domain: tasmota
+    device_id: aac48a64098611ebb34f8f93577c1c8c
+    type: button_double_press
+    subtype: button_1
+    discovery_id: 2CF432C02815_button_1_DOUBLE
   action:
   - service: light.toggle
     data:
       entity_id: light.wled_santi
       brightness: 128
+  mode: single
 - id: '1605983336893'
   alias: Frontyard - Doorbell Light
   trigger:
@@ -232,31 +170,6 @@
       data:
         entity_id: climate.woonkamer
   mode: single
-- id: '1605983538317'
-  alias: Livingroom - Spots
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: 84:2e:14:ff:fe:47:66:63:1:0x0006
-      command: 'on'
-  action:
-  - choose:
-    - conditions:
-        condition: state
-        entity_id: light.livingroom_spots
-        state: 'off'
-      sequence:
-      - service: light.turn_on
-        entity_id: light.livingroom_spots
-    - conditions:
-      - condition: state
-        entity_id: light.livingroom_spots
-        state: 'on'
-      sequence:
-      - service: light.turn_off
-        entity_id: light.livingroom_spots
-  mode: single
 - id: '1605983631120'
   alias: Livingroom - Sunset
   trigger:
@@ -266,36 +179,25 @@
     event_type: automation_reloaded
   - platform: numeric_state
     entity_id: sensor.lux_sensor
-    below: 4
+    below: '4'
   action:
   - choose:
     - conditions:
       - condition: time
         after: '16:00:00'
         before: '21:00:00'
-      - condition: state
-        entity_id:
-        - light.closet_light
-        - light.kitchen_spots
-        - light.livingroom_spots
-        state: 'off'
       - condition: numeric_state
         entity_id: sensor.lux_sensor
-        below: 4
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: person.remco
-          state: home
-        - condition: state
-          entity_id: person.annemarie
-          state: home
+        below: '4'
       sequence:
-      - service: light.turn_on
-        entity_id:
-        - light.closet_light
-        - light.kitchen_spots
-        - light.livingroom_spots
+      - type: turn_on
+        device_id: 5e1a4fc2842e401c8a66a96272680fed
+        entity_id: switch.closet_light
+        domain: switch
+      - type: turn_on
+        device_id: aac3d2a9098611eb82f1737572196896
+        entity_id: switch.kitchen_switch
+        domain: switch
   mode: single
 - id: '1605983658169'
   alias: Main Bedroom - Cover Close
@@ -322,19 +224,6 @@
   - service: cover.open_cover
     data:
       entity_id: cover.main_bedroom_cover
-  mode: single
-- id: '1605983717743'
-  alias: Main Bedroom - Light
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: d0:cf:5e:ff:fe:ce:9f:b6:1:0x0006
-      command: 'off'
-  action:
-  - service: light.toggle
-    data:
-      entity_id: light.main_bedroom_light
   mode: single
 - id: '1605983816671'
   alias: Multiroom - Home Coming
@@ -506,6 +395,7 @@
   action:
   - service: scene.turn_on
     entity_id: scene.morning_lights
+  mode: single
 - id: '1605984068016'
   alias: Misc - Guest Mode
   trigger:
@@ -737,3 +627,192 @@
         data:
           title: Door Open!!!
           message: ' ''{{ trigger.to_state.name }}'' Is Open!!!'
+- id: '1607169880964'
+  alias: Alarm On
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 10dc8b0af45911eaa2bd819850765c35
+    entity_id: binary_sensor.frontdoor_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 5463077bc85f4c22b1e511d7aaf0924e
+    entity_id: binary_sensor.kitchen_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: a7c781ccf45911ea87782758f3e1f457
+    entity_id: binary_sensor.bathroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 453dd1223aab44629671944bdf2cb1ef
+    entity_id: binary_sensor.main_bedroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: e42fa13cf45911ea9b9ea92e91f5a006
+    entity_id: binary_sensor.santi_bedroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 68b9830af45911eab94fbf6b5ce9801d
+    entity_id: binary_sensor.small_bedroom_window_sensor
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+  - service: media_player.volume_set
+    data:
+      volume_level: 1
+    entity_id: media_player.huiskamer
+  - service: media_player.play_media
+    data:
+      media_content_id: http://10.10.50.64:8123/local/alarm1.mp3
+      media_content_type: music
+    entity_id: media_player.huiskamer
+  - service: script.turn_on
+    data: {}
+    entity_id: script.1607170311437
+  mode: single
+- id: '1607171496092'
+  alias: Alarm Stop
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    from: armed_away
+    to: disarmed
+  condition: []
+  action:
+  - service: media_player.turn_off
+    data: {}
+    entity_id: group.all_speakers
+  mode: single
+- id: '1607177736217'
+  alias: Alarm On Night
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 10dc8b0af45911eaa2bd819850765c35
+    entity_id: binary_sensor.frontdoor_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 5463077bc85f4c22b1e511d7aaf0924e
+    entity_id: binary_sensor.kitchen_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: a7c781ccf45911ea87782758f3e1f457
+    entity_id: binary_sensor.bathroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 453dd1223aab44629671944bdf2cb1ef
+    entity_id: binary_sensor.main_bedroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: e42fa13cf45911ea9b9ea92e91f5a006
+    entity_id: binary_sensor.santi_bedroom_window_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 68b9830af45911eab94fbf6b5ce9801d
+    entity_id: binary_sensor.small_bedroom_window_sensor
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_home
+  action:
+  - service: media_player.volume_set
+    data:
+      volume_level: 1
+    entity_id: group.all_speakers
+  - service: media_player.play_media
+    data:
+      media_content_id: http://10.10.50.64:8123/local/alarm1.mp3
+      media_content_type: music
+    entity_id: media_player.huiskamer
+  - service: script.turn_on
+    data: {}
+    entity_id: script.1607170311437
+  mode: single
+- id: '1607243462765'
+  alias: IKEA On/Off Remote
+  description: ''
+  use_blueprint:
+    path: homeassistant/ikea_on_off_remote.yaml
+    input:
+      remote: de8debf5faa911eaae7f1bb353807f3d
+      on_button:
+      - service: light.toggle
+        data: {}
+        entity_id: light.attic
+- id: '1607244933680'
+  alias: Light Switch Upstairs
+  description: ''
+  use_blueprint:
+    path: homeassistant/ikea_on_off_remote.yaml
+    input:
+      remote: 5cc0cafff45a11ea9402ed23ce64464b
+      on_button:
+      - service: light.toggle
+        data: {}
+        entity_id: light.main_bedroom_light
+      light:
+        entity_id:
+        - light.main_bedroom_light
+        - light.attic
+        - light.wled_elyza
+        - light.small_bedroom_light
+      on_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.attic
+      off_button:
+      - service: light.toggle
+        data: {}
+        entity_id: light.small_bedroom_light
+      off_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.wled_elyza
+- id: '1607247217177'
+  alias: Light Switch Downstairs
+  description: ''
+  use_blueprint:
+    path: homeassistant/ikea_on_off_remote.yaml
+    input:
+      remote: de8debf5faa911eaae7f1bb353807f3d
+      light:
+        entity_id:
+        - light.closet_light
+        - light.livingroom_spots
+        - light.livingroom_spots_1
+        - light.livingroom_spots_2
+      on_button:
+      - service: light.toggle
+        data: {}
+        entity_id: light.livingroom_spots
+      on_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.closet_light
+      off_button:
+      - type: toggle
+        device_id: bbb04819fa5e11ea8d58e58eefec4b88
+        entity_id: light.livingroom_spots_1
+        domain: light
+      off_button_long:
+      - type: toggle
+        device_id: 260d3c1efa5f11eab2a33d5cc51233cf
+        entity_id: light.livingroom_spots_2
+        domain: light
