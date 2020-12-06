@@ -1,0 +1,89 @@
+'1607170311437':
+  alias: Alarm - Flash Lights
+  sequence:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_lights_on
+  - delay: 00:00:02
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_lights_off
+  - service: script.turn_on
+    data: {}
+    entity_id: script.script_alarm_flash_loop
+  mode: single
+'1607170800465':
+  alias: Set WLED Effect
+  mode: single
+  sequence:
+  - service: wled.effect
+    data:
+      effect: '{{ states(''input_select.wled_effect'') }}'
+      intensity: '{{ states(''input_number.wled_intensity'') | int }}'
+      palette: '{{ states(''input_select.wled_palette'') }}'
+      reverse: '{{ states(''input_boolean.wled_reverse'') }}'
+      speed: '{{ states(''input_number.wled_speed'') | int }}'
+    entity_id:
+    - light.wled_elyza
+    - light.wled_santi
+'1607170822154':
+  alias: Spot Brightness
+  mode: single
+  sequence:
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+  - service: light.toggle
+    entity_id: light.livingroom_spots
+  - delay:
+      milliseconds: '500'
+script_alarm_flash_loop:
+  alias: Alarm - Flash Loop
+  sequence:
+  - delay: 00:00:02
+  - service: script.turn_on
+    data: {}
+    entity_id: script.1607170311437
+  mode: single
+alarm_night_flash:
+  alias: Alarm - Night Flash
+  sequence:
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_night_on
+  - delay: 00:00:02
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_night_off
+  - service: script.turn_on
+    data: {}
+    entity_id: script.script_alarm_night_loop
+  mode: single
+script_alarm_night_loop:
+  alias: Alarm - Night Loop
+  sequence:
+  - delay: 00:00:02
+  - service: script.turn_on
+    data: {}
+    entity_id: script.alarm_night_flash
+  mode: single
