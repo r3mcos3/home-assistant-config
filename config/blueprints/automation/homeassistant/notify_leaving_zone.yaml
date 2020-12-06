@@ -1,3 +1,4 @@
+---
 blueprint:
   name: Send notification when a person leaves a zone
   domain: automation
