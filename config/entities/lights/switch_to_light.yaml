@@ -8,3 +8,12 @@
 - platform: switch
   name: Kitchen Spots
   entity_id: switch.kitchen_switch
+- platform: switch
+  entity_id: switch.toilet_light
+  name: Toilet Light
+- platform: switch
+  entity_id: switch.xmastree
+  name: Christmas Tree
+- platform: switch
+  entity_id: switch.window_leds
+  name: Window Leds

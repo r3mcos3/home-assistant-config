@@ -1,0 +1,6 @@
+---
+- platform: group
+  name: Christmas Lights
+  entities:
+    - light.window_leds
+    - light.christmas_tree
