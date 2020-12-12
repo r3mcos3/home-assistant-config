@@ -36,7 +36,10 @@ trigger:
   entity_id: !input motion_entity
   from: "off"
   to: "on"
-
+condition:
+  platform: state
+  entity_id: sun.sun
+  to: below_horizon
 action:
   - service: light.turn_on
     target: !input light_target

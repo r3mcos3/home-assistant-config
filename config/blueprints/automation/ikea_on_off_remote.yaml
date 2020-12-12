@@ -1,6 +1,9 @@
 ---
 blueprint:
   name: IKEA On/Off Remote
+  description: |
+    Control lights with an IKEA 2 button remote (the square ones).
+    the on and off button have a short and long press action.
   domain: automation
   input:
     remote:
@@ -11,13 +14,6 @@ blueprint:
           integration: zha
           manufacturer: IKEA of Sweden
           model: TRADFRI on/off switch
-    light:
-      name: Light(s)
-      description: The lights(s) to control
-      selector:
-        target:
-          entity:
-            domain: light
     on_button:
       name: On button - short press
       description: Action to run on short press
