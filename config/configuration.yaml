@@ -2,4 +2,4 @@
 homeassistant:
   packages: !include_dir_named integrations
   allowlist_external_dirs:
-    - "/config/blueprints"
+    - /config/blueprints
