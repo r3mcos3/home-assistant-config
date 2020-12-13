@@ -620,84 +620,6 @@
     data: {}
     entity_id: script.1607170311437
   mode: single
-- id: '1607244933680'
-  alias: Light Switch Upstairs
-  description: ''
-  use_blueprint:
-    path: homeassistant/ikea_on_off_remote.yaml
-    input:
-      remote: 5cc0cafff45a11ea9402ed23ce64464b
-      on_button:
-      - service: light.toggle
-        entity_id: light.small_bedroom_light
-        data:
-          rgb_color:
-          - 255
-          - 255
-          - 255
-      light:
-        entity_id:
-        - light.main_bedroom_light
-        - light.attic
-        - light.wled_elyza
-        - light.small_bedroom_light
-      on_button_long:
-      - service: light.toggle
-        data: {}
-        entity_id: light.wled_elyza
-      off_button:
-      - service: light.toggle
-        data: {}
-        entity_id: light.main_bedroom_light
-      off_button_long:
-      - service: light.toggle
-        data: {}
-        entity_id: light.attic
-- id: '1607270576885'
-  alias: Light Switch Downstairs
-  description: ''
-  use_blueprint:
-    path: homeassistant/ikea_on_off_remote.yaml
-    input:
-      remote: de8debf5faa911eaae7f1bb353807f3d
-      on_button:
-      - service: light.toggle
-        data: {}
-        entity_id: light.livingroom_spots
-      off_button:
-      - service: light.toggle
-        data: {}
-        entity_id: light.closet_light
-      on_button_long:
-      - type: toggle
-        device_id: bbb04819fa5e11ea8d58e58eefec4b88
-        entity_id: light.livingroom_spots_1
-        domain: light
-      off_button_long:
-      - type: toggle
-        device_id: 260d3c1efa5f11eab2a33d5cc51233cf
-        entity_id: light.livingroom_spots_2
-        domain: light
-- id: '1607282379633'
-  alias: Basement - Motion Light
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      no_motion_wait: '60'
-      motion_entity: binary_sensor.basement_motion
-      light_target:
-        device_id: aac5d270098611eb937857059cfc255f
-- id: '1607283474346'
-  alias: Toilet - Motion Light
-  description: ''
-  use_blueprint:
-    path: homeassistant/motion_light.yaml
-    input:
-      no_motion_wait: '300'
-      motion_entity: binary_sensor.toilet_motion
-      light_target:
-        entity_id: light.toilet_light
 - id: '1607284139941'
   alias: Hallway - Light
   description: ''
@@ -723,8 +645,78 @@
     entity_id: light.hallway
     domain: light
   mode: restart
-- id: '1607779831599'
-  alias: System - Reload Blueprints On Change
+- id: '1607786236228'
+  alias: Toilet - Motion Light
+  description: ''
+  use_blueprint:
+    path: home-assistant/motion_light.yaml
+    input:
+      no_motion_wait: '300'
+      motion_entity: binary_sensor.toilet_motion
+      light_target:
+        entity_id: light.toilet_light
+- id: '1607786263168'
+  alias: System - Reload Blueprints
   description: ''
   use_blueprint:
     path: vorostamas/reload_automations_on_file_change.yaml
+- id: '1607786298747'
+  alias: Basement - Motion Light
+  description: ''
+  use_blueprint:
+    path: home-assistant/motion_light.yaml
+    input:
+      no_motion_wait: '60'
+      motion_entity: binary_sensor.basement_motion
+      light_target:
+        device_id: aac5d270098611eb937857059cfc255f
+- id: '1607786388042'
+  alias: Light Switch Upstairs
+  description: ''
+  use_blueprint:
+    path: r3mcos3/ikea_on_off_remote.yaml
+    input:
+      remote: 5cc0cafff45a11ea9402ed23ce64464b
+      on_button:
+      - type: toggle
+        device_id: 6c71479d9a39477bb41f3d0e181aeb93
+        entity_id: light.small_bedroom_light
+        domain: light
+      on_button_long:
+      - type: toggle
+        device_id: c6c692f2e8c65a76f4799b6d4dc8146a
+        entity_id: light.wled_elyza
+        domain: light
+      off_button:
+      - type: toggle
+        device_id: e3c6227706f54d5c8bf49dbf0ecd49d7
+        entity_id: light.main_bedroom_light
+        domain: light
+      off_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.attic
+- id: '1607786514646'
+  alias: Light Switch Downstairs
+  description: ''
+  use_blueprint:
+    path: r3mcos3/ikea_on_off_remote.yaml
+    input:
+      remote: de8debf5faa911eaae7f1bb353807f3d
+      on_button:
+      - service: light.toggle
+        data: {}
+        entity_id: light.livingroom_spots
+      off_button:
+      - type: toggle
+        device_id: 5e1a4fc2842e401c8a66a96272680fed
+        entity_id: switch.closet_light
+        domain: switch
+      off_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.livingroom_spots_2
+      on_button_long:
+      - service: light.toggle
+        data: {}
+        entity_id: light.livingroom_spots_1
