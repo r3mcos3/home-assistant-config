@@ -1,41 +1,42 @@
 ---
 blueprint:
   name: Light Watchdog
-  description: |
-    'This is a watchdog for lights that are triggered by motion,
-    but due to a system restart not has turned off'
+  description: 'This is a watchdog for lights that are triggered by motion, but due to a system restart not has turned off'
   domain: automation
+  source_url: https://github.com/r3mcos3/home-assistant-config/blob/master/config/blueprints/automation/r3mcos3/light_watchdog.yaml
   input:
     light:
       name: Light
-      description: 'The light this watchdog will check'
+      description: The light this watchdog will check
       selector:
-        entity:
-          domain: light
+        target:
+          entity:
+            domain: light
     wait_time:
       name: Wait Time
-      description: 'The time to wait until the light will be turned off'
+      description: The time to wait until the light will be turned off
       default: 120
       selector:
         number:
-          min: 1
-          max: 3600
+          min: 1.0
+          max: 3600.0
           unit_of_measurement: seconds
           mode: slider
-          step: 1
+          step: 1.0
 mode: restart
 
 trigger:
   - platform: homeassistant
     event: start
   - platform: event
-    event: automation_reloaded
-condition:
-  condition: state
-  entity_id: !input light
-  state: 'on'
+    event_type: automation_reloaded
+variables:
+  light: !input light
+  wait_time: !input wait_time
 action:
-  - delay:
-      seconds: !input wait_time
-  - service: light.turn_off
-    entity_id: !input light
+  - choose:
+      - conditions: "{{ light == 'on' }}"
+        sequence:
+          - delay: !input wait_time
+          - service: light.turn_off
+            target: !input light

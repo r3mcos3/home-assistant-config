@@ -632,7 +632,10 @@
     entity_id: person.remco
     from: not_home
     to: home
-  condition: []
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
   - type: turn_on
     device_id: aac63ad9098611eba8402b3b5a07ae74
@@ -720,3 +723,21 @@
       - service: light.toggle
         data: {}
         entity_id: light.livingroom_spots_1
+- id: '1607849133905'
+  alias: Toilet - Light Watchdog
+  description: ''
+  use_blueprint:
+    path: r3mcos3/light_watchdog.yaml
+    input:
+      wait_time: '600'
+      light:
+        entity_id: light.toilet_light
+- id: '1607849158904'
+  alias: Basement - Light Watchdog
+  description: ''
+  use_blueprint:
+    path: r3mcos3/light_watchdog.yaml
+    input:
+      wait_time: '120'
+      light:
+        device_id: aac5d270098611eb937857059cfc255f
