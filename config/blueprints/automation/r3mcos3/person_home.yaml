@@ -1,3 +1,4 @@
+---
 blueprint:
   name: Person Home Blueprint
   description: 'trigger an action if somebody comes home.'
@@ -26,12 +27,12 @@ blueprint:
         action: {}
 mode: single
 trigger:
-- platform: state
-  entity_id: !input 'personone'
-  from: not_home
-  to: home
-- platform: state
-  entity_id: !input 'persontwo'
-  from: not_home
-  to: home
+  - platform: state
+    entity_id: !input 'personone'
+    from: not_home
+    to: home
+  - platform: state
+    entity_id: !input 'persontwo'
+    from: not_home
+    to: home
 action: !input 'service'
