@@ -154,32 +154,6 @@
         entity_id: switch.kitchen_switch
         domain: switch
   mode: single
-- id: '1605983658169'
-  alias: Main Bedroom - Cover Close
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
-      command: down_close
-  action:
-  - service: cover.close_cover
-    data:
-      entity_id: cover.main_bedroom_cover
-  mode: single
-- id: '1605983694066'
-  alias: Main Bedroom - Cover Open
-  trigger:
-  - platform: event
-    event_type: zha_event
-    event_data:
-      unique_id: 08:6b:d7:ff:fe:5d:b1:49:1:0x0102
-      command: up_open
-  action:
-  - service: cover.open_cover
-    data:
-      entity_id: cover.main_bedroom_cover
-  mode: single
 - id: '1605983816671'
   alias: Multiroom - Home Coming
   trigger:
@@ -658,11 +632,6 @@
       motion_entity: binary_sensor.toilet_motion
       light_target:
         entity_id: light.toilet_light
-- id: '1607786263168'
-  alias: System - Reload Blueprints
-  description: ''
-  use_blueprint:
-    path: vorostamas/reload_automations_on_file_change.yaml
 - id: '1607786298747'
   alias: Basement - Motion Light
   description: ''
@@ -723,21 +692,60 @@
       - service: light.toggle
         data: {}
         entity_id: light.livingroom_spots_1
-- id: '1607849133905'
-  alias: Toilet - Light Watchdog
+- id: '1607862736401'
+  alias: System - Motion Light Watchdog
   description: ''
-  use_blueprint:
-    path: r3mcos3/light_watchdog.yaml
-    input:
-      wait_time: '600'
-      light:
-        entity_id: light.toilet_light
-- id: '1607849158904'
-  alias: Basement - Light Watchdog
-  description: ''
-  use_blueprint:
-    path: r3mcos3/light_watchdog.yaml
-    input:
-      wait_time: '120'
-      light:
+  trigger:
+  - platform: state
+    entity_id:
+    - light.basement_closet
+    - light.toilet_light
+    to: 'on'
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: device
+        type: is_on
         device_id: aac5d270098611eb937857059cfc255f
+        entity_id: light.basement_closet
+        domain: light
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      sequence:
+      - type: turn_off
+        device_id: aac5d270098611eb937857059cfc255f
+        entity_id: light.basement_closet
+        domain: light
+    - conditions:
+      - condition: device
+        type: is_on
+        device_id: aac4f98e098611eb9e873b2d79814200
+        entity_id: switch.toilet_light
+        domain: switch
+        for:
+          hours: 0
+          minutes: 10
+          seconds: 0
+      sequence:
+      - type: turn_off
+        device_id: aac4f98e098611eb9e873b2d79814200
+        entity_id: switch.toilet_light
+        domain: switch
+    default: []
+  mode: single
+- id: '1608054172568'
+  alias: Cover Remote
+  description: ''
+  use_blueprint:
+    path: r3mcos3/ikea_open_close_remote.yaml
+    input:
+      remote: 32671a79f45a11ea9ecd57af3000c80f
+      cover:
+        device_id: a39abb48423442328cab74f6ced0f09a
