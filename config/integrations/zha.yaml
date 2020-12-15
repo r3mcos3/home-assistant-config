@@ -3,3 +3,7 @@ zha:
   zigpy_config:
     ota:
       ikea_provider: true                        # Auto update Trådfri devices
+      ikea_update_url: http://fw.test.ota.homesmart.ikea.net/feed/version_info.json
+    network:
+      channel: 25
+      channels: [20, 25]
