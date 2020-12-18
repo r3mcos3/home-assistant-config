@@ -60,3 +60,7 @@
     - newest_version
     - current_version
     - current_version
+- platform: command_line
+  name: HassOS Installed Version
+  command: 'curl http://supervisor/host/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)"|jq ''{"hassos":.data.operating_system}'''
+  value_template: "{{ value_json.hassos[18:] }}"
