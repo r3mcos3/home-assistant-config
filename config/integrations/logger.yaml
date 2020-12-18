@@ -1,0 +1,5 @@
+---
+logger:
+  default: debug
+  # logs:
+    # zigpy_deconz.api: debug
