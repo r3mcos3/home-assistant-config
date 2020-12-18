@@ -1,0 +1,54 @@
+---
+blueprint:
+  name: Lux Activated Lights
+  description: 'Activated lights when lux level is below a specific level'
+  domain: automation
+  input:
+    lux_sensor:
+      name: Lux Sensor
+      description: Lux sensor to use.
+      selector:
+        entity:
+          device_class: illuminance
+    lights:
+      name: Lights
+      description: 'Lights to use.'
+      selector:
+        target:
+          entity:
+            domain: light
+    lux_level:
+      name: Lux Level
+      description: 'Below value off the sensor, To activate the lights'
+      default: 5
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 1
+          mode: slider
+          unit_of_measurement: lx
+    time:
+      name: Time Condition
+      description: 'Time that it has to be after, to prevent lights go on in afternoon '
+      default: '00:00:00'
+      selector:
+        time:
+
+mode: single
+
+trigger:
+  platform: numeric_state
+  entity_id: !input 'lux_sensor'
+  below: !input 'lux_level'
+action:
+  - choose:
+      - conditions:
+          - condition: time
+            after: !input 'time'
+        sequence:
+          - service: light.turn_on
+            target: !input 'lights'
+    default:
+      - service: light.turn_off
+        target: !input 'lights'
