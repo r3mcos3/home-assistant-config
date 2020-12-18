@@ -35,9 +35,9 @@ action:
           - '{{ command == ''up_open'' }}'
         sequence:
           - service: cover.open_cover
-            target: !input cover
+            entity_id: !input cover
       - conditions:
           - '{{ command == ''down_close'' }}'
         sequence:
           - service: cover.close_cover
-            target: !input cover
+            entity_id: !input cover
