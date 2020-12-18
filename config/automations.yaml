@@ -321,6 +321,9 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: state
+    entity_id: person.remco
+    state: home
   action:
   - service: scene.turn_on
     entity_id: scene.morning_lights
@@ -476,124 +479,6 @@
     data:
       message: Home Assistant Is Shutting Down... Bye!
   mode: single
-- id: '1607169880964'
-  alias: Alarm On
-  description: ''
-  trigger:
-  - type: opened
-    platform: device
-    device_id: 10dc8b0af45911eaa2bd819850765c35
-    entity_id: binary_sensor.frontdoor_door_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 5463077bc85f4c22b1e511d7aaf0924e
-    entity_id: binary_sensor.kitchen_door_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: a7c781ccf45911ea87782758f3e1f457
-    entity_id: binary_sensor.bathroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 453dd1223aab44629671944bdf2cb1ef
-    entity_id: binary_sensor.main_bedroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: e42fa13cf45911ea9b9ea92e91f5a006
-    entity_id: binary_sensor.santi_bedroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 68b9830af45911eab94fbf6b5ce9801d
-    entity_id: binary_sensor.small_bedroom_window_sensor
-    domain: binary_sensor
-  condition:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: armed_away
-  action:
-  - service: media_player.volume_set
-    data:
-      volume_level: 1
-    entity_id: media_player.huiskamer
-  - service: media_player.play_media
-    data:
-      media_content_id: http://10.10.50.64:8123/local/alarm1.mp3
-      media_content_type: music
-    entity_id: media_player.huiskamer
-  - service: script.turn_on
-    data: {}
-    entity_id: script.1607170311437
-  mode: single
-- id: '1607171496092'
-  alias: Alarm Stop
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: alarm_control_panel.home_alarm
-    from: armed_away
-    to: disarmed
-  condition: []
-  action:
-  - service: media_player.turn_off
-    data: {}
-    entity_id: group.all_speakers
-  mode: single
-- id: '1607177736217'
-  alias: Alarm On Night
-  description: ''
-  trigger:
-  - type: opened
-    platform: device
-    device_id: 10dc8b0af45911eaa2bd819850765c35
-    entity_id: binary_sensor.frontdoor_door_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 5463077bc85f4c22b1e511d7aaf0924e
-    entity_id: binary_sensor.kitchen_door_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: a7c781ccf45911ea87782758f3e1f457
-    entity_id: binary_sensor.bathroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 453dd1223aab44629671944bdf2cb1ef
-    entity_id: binary_sensor.main_bedroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: e42fa13cf45911ea9b9ea92e91f5a006
-    entity_id: binary_sensor.santi_bedroom_window_sensor
-    domain: binary_sensor
-  - type: opened
-    platform: device
-    device_id: 68b9830af45911eab94fbf6b5ce9801d
-    entity_id: binary_sensor.small_bedroom_window_sensor
-    domain: binary_sensor
-  condition:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: armed_home
-  action:
-  - service: media_player.volume_set
-    data:
-      volume_level: 1
-    entity_id: group.all_speakers
-  - service: media_player.play_media
-    data:
-      media_content_id: http://10.10.50.64:8123/local/alarm1.mp3
-      media_content_type: music
-    entity_id: media_player.huiskamer
-  - service: script.turn_on
-    data: {}
-    entity_id: script.1607170311437
-  mode: single
 - id: '1607284139941'
   alias: Hallway - Light
   description: ''
@@ -740,12 +625,27 @@
         domain: switch
     default: []
   mode: single
-- id: '1608054172568'
-  alias: Cover Remote
+- id: '1608222290186'
+  alias: 'Landing - Cover Remote '
   description: ''
   use_blueprint:
     path: r3mcos3/ikea_open_close_remote.yaml
     input:
       remote: 32671a79f45a11ea9ecd57af3000c80f
-      cover:
-        device_id: a39abb48423442328cab74f6ced0f09a
+      cover: cover.main_bedroom_cover
+- id: '1608314282933'
+  alias: TEST - Sunset Lights
+  description: ''
+  use_blueprint:
+    path: r3mcos3/lux_light.yaml
+    input:
+      lux_level: '5'
+      lux_sensor: sensor.lux_sensor
+      lights:
+        entity_id:
+        - light.livingroom_spots
+        - light.closet_light
+        - light.kitchen_spots
+        - light.christmas_tree
+        - light.window_leds
+      time: '16:00:00'
