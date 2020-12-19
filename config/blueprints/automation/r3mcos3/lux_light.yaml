@@ -28,9 +28,15 @@ blueprint:
           step: 1
           mode: slider
           unit_of_measurement: lx
-    time:
-      name: Time Condition
-      description: 'Time that it has to be after, to prevent lights go on in afternoon '
+    time_after:
+      name: Time After
+      description: 'Time that it has to be after, to prevent lights go on in afternoon'
+      default: '00:00:00'
+      selector:
+        time:
+    time_before:
+      name: Time Before
+      description: 'Time that it has to be before, to prevent lights go on in the middle off the night'
       default: '00:00:00'
       selector:
         time:
@@ -45,7 +51,8 @@ action:
   - choose:
       - conditions:
           - condition: time
-            after: !input 'time'
+            after: !input 'time_after'
+            before: !input 'time_before'
         sequence:
           - service: light.turn_on
             target: !input 'lights'
