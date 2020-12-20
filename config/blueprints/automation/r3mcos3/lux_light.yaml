@@ -56,6 +56,3 @@ action:
         sequence:
           - service: light.turn_on
             target: !input 'lights'
-    default:
-      - service: light.turn_off
-        target: !input 'lights'

@@ -650,4 +650,33 @@
         - light.window_leds
       time: '16:00:00'
       time_before: '20:30:00'
-      time_after: '16:00:00'
+      time_after: 07:00:00
+- id: '1608362266535'
+  alias: System - Volume Control
+  description: ''
+  use_blueprint:
+    path: r3mcos3/volume_control.yaml
+    input:
+      volume_down: '0.2'
+      media:
+        entity_id:
+        - media_player.keuken_speaker
+        - media_player.woonkamer_speaker
+        - media_player.google_hub
+        - media_player.huiskamer
+        - media_player.serre
+      time_up: 08:30:00
+      time_down: '20:00:00'
+      volume_up: '0.6'
+- id: '1608373619487'
+  alias: TEST - transmission
+  description: ''
+  trigger:
+  - platform: event
+    event_type: transmission_downloaded_torrent
+  action:
+  - service: notify.mobile_app_in2023
+    data:
+      title: Torrent completed!
+      message: '{{trigger.event.data.name}}'
+  mode: single
