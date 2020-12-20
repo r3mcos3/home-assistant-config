@@ -1,0 +1,92 @@
+---
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.2.1.25.1.1.0
+  name: 'Readynas Uptime'
+  value_template: >-
+    {% set time = (value | int) | int %}
+    {% set minutes = ((time % 360000) / 6000) | int%}
+    {% set hours = ((time % 8640000) / 360000) | int %}
+    {% set days = (time / 8640000) | int %}
+      {%- if time < 60 -%}
+        Less then 1 min
+        {%- else -%}
+        {%- if days > 0 -%}
+          {{ days }}d
+        {%- endif -%}
+        {%- if hours > 0 -%}
+          {%- if days > 0 -%}
+            {{ ' ' }}
+          {%- endif -%}
+          {{ hours }}hr
+        {%- endif -%}
+        {%- if minutes > 0 -%}
+          {%- if days > 0 or hours > 0 -%}
+            {{ ' ' }}
+          {%- endif -%}
+          {{ minutes }}min
+        {%- endif -%}
+      {%- endif -%}
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.2.1.1.5.0
+  name: 'Readynas Name'
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.9.1
+  name: 'Readynas Disk1 State'
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.9.2
+  name: 'Readynas Disk2 State'
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.10.1
+  name: 'Readynas Disk1 Temp'
+  unit_of_measurement: °C
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.10.2
+  name: 'Readynas Disk2 Temp'
+  unit_of_measurement: °C
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.7.1
+  name: 'Readynas Disk1 Capacity'
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.3.1.7.2
+  name: 'Readynas Disk2 Capacity'
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.4.1.2.1
+  name: 'Readynas Fan RPM'
+  unit_of_measurement: RPM
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.5.1.2.1
+  name: 'Readynas Temp Value'
+  unit_of_measurement: °C
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.7.1.5.1
+  name: 'Readynas Volume Size'
+  value_template: "{{ (( value | float / 1024) |round(2))}}"
+  unit_of_measurement: GB
+
+- platform: snmp
+  host: 10.10.20.12
+  baseoid: 1.3.6.1.4.1.4526.22.7.1.6.1
+  name: 'Readynas Volume Free'
+  value_template: "{{ (( value | float / 1024) |round(2))}}"
+  unit_of_measurement: GB
