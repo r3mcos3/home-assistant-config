@@ -1,0 +1,4 @@
+---
+cover.main_bedroom_cover:
+  device_class: blind
+  icon: mdi:window-open
