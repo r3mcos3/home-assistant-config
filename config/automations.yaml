@@ -589,8 +589,8 @@
         - light.patio_led_1
         - light.patio_led_2
       no_motion_wait: '120'
-- id: '1608579658233'
-  alias: Bathroom - Washingmachine Done
+- id: '1608628236783'
+  alias: Bathroom - Washing Machine Done
   description: ''
   use_blueprint:
     path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
@@ -601,7 +601,8 @@
       - service: tts.cloud_say
         data:
           entity_id: media_player.huiskamer
-          message: Wasmachine is klaar!
-          options:
-            gender: female
-          language: nl-NL
+          data:
+            message: wasmachine is klaar!
+            options:
+              gender: female
+            language: nl-NL
