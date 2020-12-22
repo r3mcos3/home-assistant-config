@@ -1,20 +1,3 @@
-'1607170311437':
-  alias: Alarm - Flash Lights
-  sequence:
-  - condition: state
-    entity_id: alarm_control_panel.home_alarm
-    state: armed_away
-  - service: scene.turn_on
-    data: {}
-    entity_id: scene.alarm_lights_on
-  - delay: 00:00:02
-  - service: scene.turn_on
-    data: {}
-    entity_id: scene.alarm_lights_off
-  - service: script.turn_on
-    data: {}
-    entity_id: script.script_alarm_flash_loop
-  mode: single
 '1607170800465':
   alias: Set WLED Effect
   mode: single
@@ -86,4 +69,21 @@ script_alarm_night_loop:
   - service: script.turn_on
     data: {}
     entity_id: script.alarm_night_flash
+  mode: single
+'1608561117398':
+  alias: Alarm - Flash Lights
+  sequence:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_lights_on
+  - delay: 00:00:02
+  - service: scene.turn_on
+    data: {}
+    entity_id: scene.alarm_lights_off
+  - service: script.turn_on
+    data: {}
+    entity_id: script.script_alarm_flash_loop
   mode: single
