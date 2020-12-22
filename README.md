@@ -37,14 +37,15 @@ Other hardware.
 
 Addons I use.
 
-1. MariaDB
-2. SSH & Web Terminal
-3. Wireguard
-4. Portainer
-5. Mosquitto Broker
-6. Hass.io Google Drive Backup
-7. Nginx Proxy Manager
-8. Visual Studio Code
+1. [MariaDB](https://github.com/home-assistant/addons/blob/master/mariadb/DOCS.md)
+2. [SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh)
+3. [Wireguard](https://github.com/hassio-addons/addon-wireguard/blob/master/wireguard/DOCS.md)
+4. [Portainer](https://github.com/hassio-addons/addon-portainer)
+5. [Mosquitto Broker](https://github.com/home-assistant/addons/blob/master/mosquitto/DOCS.md)
+6. [Hass.io Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup)
+7. [Nginx Proxy Manager](https://github.com/hassio-addons/addon-nginx-proxy-manager)
+8. [Visual Studio Code](https://github.com/hassio-addons/addon-vscode)
+9. [Adguard Home](https://github.com/hassio-addons/addon-adguard-home)
 
 ## LICENSE
 
