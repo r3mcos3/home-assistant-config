@@ -4,14 +4,11 @@
 
 ![GitHub watchers](https://img.shields.io/github/watchers/r3mcos3/home-assistant-config?style=social) ![GitHub stars](https://img.shields.io/github/stars/r3mcos3/home-assistant-config?style=social) ![GitHub followers](https://img.shields.io/github/followers/r3mcos3?style=social)
 
-## Due to massive crash off the server i'm running Home Assistant on 
-##  it will contain less files, Because i'm building it from the ground up!!
-
 ## About
 
 I'm not that good in writing english, so here's my README.md
 
-For me this is for fun and i'm in no way an expert in 
+For me this is for fun and i'm in no way an expert in
 Github, Home Assistant, or what so ever.
 
 Feel free to contribute to my project and i see what i can do.
@@ -23,7 +20,6 @@ Also don't forget to :star: this repo.
 
 I'm running Home Assistant from my old desktop pc, It's a
 Intel Core I5 2500K with 8GB ram and a 500GB ssd.
-
 Its running in a vm on Proxmox.
 
 Other hardware.
@@ -44,15 +40,11 @@ Addons I use.
 1. MariaDB
 2. SSH & Web Terminal
 3. Wireguard
-4. MotionEye
-5. Portainer
-6. Mosquitto Broker
-7. Hass.io Google Drive Backup
-8. Glances
-9. Bitwarden RS
-10. Nginx Proxy Manager
-11. Visual Studio Code
-12. TasmoBackup
+4. Portainer
+5. Mosquitto Broker
+6. Hass.io Google Drive Backup
+7. Nginx Proxy Manager
+8. Visual Studio Code
 
 ## LICENSE
 
