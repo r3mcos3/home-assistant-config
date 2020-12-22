@@ -125,35 +125,6 @@
       data:
         entity_id: climate.woonkamer
   mode: single
-- id: '1605983631120'
-  alias: Livingroom - Sunset
-  trigger:
-  - platform: homeassistant
-    event: start
-  - platform: event
-    event_type: automation_reloaded
-  - platform: numeric_state
-    entity_id: sensor.lux_sensor
-    below: '4'
-  action:
-  - choose:
-    - conditions:
-      - condition: time
-        after: '16:00:00'
-        before: '21:00:00'
-      - condition: numeric_state
-        entity_id: sensor.lux_sensor
-        below: '4'
-      sequence:
-      - type: turn_on
-        device_id: 5e1a4fc2842e401c8a66a96272680fed
-        entity_id: switch.closet_light
-        domain: switch
-      - type: turn_on
-        device_id: aac3d2a9098611eb82f1737572196896
-        entity_id: switch.kitchen_switch
-        domain: switch
-  mode: single
 - id: '1605983816671'
   alias: Multiroom - Home Coming
   trigger:
@@ -271,46 +242,6 @@
     data:
       entity_id: script.wled_effect
   mode: single
-- id: '1605983987205'
-  alias: Patio - Recycle Bin Light
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.kitchen_door_sensor
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: sun.sun
-        state: below_horizon
-      - condition: state
-        entity_id: binary_sensor.kitchen_door_sensor
-        state: 'on'
-      - condition: state
-        entity_id: light.patio
-        state: 'off'
-      sequence:
-      - service: light.turn_on
-        data:
-          entity_id:
-          - light.patio_led_1
-          - light.patio_led_2
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.kitchen_door_sensor
-        state: 'off'
-      - condition: state
-        entity_id:
-        - light.patio_led_3
-        - light.patio_led_4
-        - light.patio_led_5
-        - light.patio_led_6
-        state: 'off'
-      sequence:
-      - service: light.turn_off
-        data:
-          entity_id:
-          - light.patio_led_1
-          - light.patio_led_2
 - id: '1605984035171'
   alias: Misc - Alarm Clock
   trigger:
@@ -391,46 +322,6 @@
   - service: notify.mobile_app_in2023
     data:
       message: Database Repacked!
-  mode: single
-- id: '1605984136894'
-  alias: Misc - Volume Control
-  trigger:
-  - platform: homeassistant
-    event: start
-  - platform: event
-    event_type: automation_reloaded
-  - platform: time_pattern
-    minutes: /30
-  action:
-  - choose:
-    - conditions:
-      - condition: time
-        before: input_datetime.volume_down
-        after: input_datetime.volume_up
-      sequence:
-      - service: media_player.volume_set
-        data:
-          volume_level: 0.5
-          entity_id:
-          - media_player.google_hub
-          - media_player.keuken_speaker
-          - media_player.woonkamer_speaker
-          - media_player.huiskamer
-          - media_player.serre
-    - conditions:
-      - condition: time
-        before: input_datetime.volume_up
-        after: input_datetime.volume_down
-      sequence:
-      - service: media_player.volume_set
-        data:
-          volume_level: 0.2
-          entity_id:
-          - media_player.google_hub
-          - media_player.keuken_speaker
-          - media_player.woonkamer_speaker
-          - media_player.huiskamer
-          - media_player.serre
   mode: single
 - id: '1605984175952'
   alias: Notify - Hacs Repo Added
@@ -581,15 +472,20 @@
   alias: System - Motion Light Watchdog
   description: ''
   trigger:
-  - platform: state
-    entity_id:
-    - light.basement_closet
-    - light.toilet_light
-    to: 'on'
+  - platform: device
+    type: turned_on
+    device_id: aac5d270098611eb937857059cfc255f
+    entity_id: light.basement_closet
+    domain: light
   - platform: homeassistant
     event: start
   - platform: event
     event_type: automation_reloaded
+  - platform: device
+    type: turned_on
+    device_id: aac4f98e098611eb9e873b2d79814200
+    entity_id: switch.toilet_light
+    domain: switch
   condition: []
   action:
   - choose:
@@ -616,7 +512,7 @@
         domain: switch
         for:
           hours: 0
-          minutes: 10
+          minutes: 5
           seconds: 0
       sequence:
       - type: turn_off
@@ -650,7 +546,7 @@
         - light.window_leds
       time: '16:00:00'
       time_before: '20:30:00'
-      time_after: 07:00:00
+      time_after: '16:00:00'
 - id: '1608362266535'
   alias: System - Volume Control
   description: ''
@@ -666,10 +562,10 @@
         - media_player.huiskamer
         - media_player.serre
       time_up: 08:30:00
-      time_down: '20:00:00'
+      time_down: '20:30:00'
       volume_up: '0.6'
 - id: '1608373619487'
-  alias: TEST - transmission
+  alias: System - Download Completed
   description: ''
   trigger:
   - platform: event
@@ -680,3 +576,32 @@
       title: Torrent completed!
       message: '{{trigger.event.data.name}}'
   mode: single
+- id: '1608488532525'
+  alias: Patio - Recycle Bin
+  description: ''
+  use_blueprint:
+    path: reinder83/motion-detect-lights-with-elevation-check.yaml
+    input:
+      below_elevation: '3'
+      motion_entity: binary_sensor.kitchen_door_sensor
+      light_target:
+        entity_id:
+        - light.patio_led_1
+        - light.patio_led_2
+      no_motion_wait: '120'
+- id: '1608579658233'
+  alias: Bathroom - Washingmachine Done
+  description: ''
+  use_blueprint:
+    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
+    input:
+      finishing_hysteresis: '5'
+      power_sensor: sensor.pow_r2_energy_power
+      actions:
+      - service: tts.cloud_say
+        data:
+          entity_id: media_player.huiskamer
+          message: Wasmachine is klaar!
+          options:
+            gender: female
+          language: nl-NL
