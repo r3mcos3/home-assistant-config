@@ -58,8 +58,8 @@ action:
   - choose:
       - conditions:
           - condition: time
-            before: !input 'time_up'
-            after: !input 'time_down'
+            before: !input 'time_down'
+            after: !input 'time_up'
         sequence:
           - service: media_player.volume_set
             target: !input 'media'
@@ -67,8 +67,8 @@ action:
               volume_level: !input 'volume_up'
       - conditions:
           - condition: time
-            before: !input 'time_down'
-            after: !input 'time_up'
+            before: !input 'time_up'
+            after: !input 'time_down'
         sequence:
           - service: media_player.volume_set
             target: !input 'media'
