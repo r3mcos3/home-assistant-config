@@ -530,7 +530,7 @@
       remote: 32671a79f45a11ea9ecd57af3000c80f
       cover: cover.main_bedroom_cover
 - id: '1608314282933'
-  alias: TEST - Sunset Lights
+  alias: Livingroom - Sunset Lights
   description: ''
   use_blueprint:
     path: r3mcos3/lux_light.yaml
@@ -599,10 +599,34 @@
       power_sensor: sensor.pow_r2_energy_power
       actions:
       - service: tts.cloud_say
+        entity_id: media_player.huiskamer
         data:
-          entity_id: media_player.huiskamer
-          data:
-            message: wasmachine is klaar!
-            options:
-              gender: female
-            language: nl-NL
+          message: wasmachine is klaar!
+          options:
+            gender: female
+          language: nl-NL
+- id: '1608720176984'
+  alias: Heating Control
+  description: ''
+  use_blueprint:
+    path: r3mcos3/heating.yaml
+    input:
+      set_temp: '25'
+      heating: climate.woonkamer
+      temp_sensor: sensor.livingroom_temp
+      person1: person.remco
+      person2: person.annemarie
+      min_temp: 20
+- id: '1608791839747'
+  alias: Tag 8 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 9fcab2aa-c947-40dc-a1a1-b25958049091
+  condition: []
+  action:
+  - type: toggle
+    device_id: aac63ad9098611eba8402b3b5a07ae74
+    entity_id: light.hallway
+    domain: light
+  mode: single
