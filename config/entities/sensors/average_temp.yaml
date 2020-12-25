@@ -4,5 +4,5 @@
   name: Average Livingroom Temp
   round_digits: 1
   entity_ids:
-    - sensor.lumi_lumi_weather_96e8d702_temperature
+    - sensor.livingroom_temp
     - sensor.woonkamer_temperature
