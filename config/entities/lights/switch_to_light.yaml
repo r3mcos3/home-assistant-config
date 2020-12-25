@@ -17,3 +17,9 @@
 - platform: switch
   entity_id: switch.window_leds
   name: Window Leds
+- platform: switch
+  entity_id: switch.santi_light_switch
+  name: Santi Light Switch
+- platform: switch
+  entity_id: switch.main_switch_backyard
+  name: Main Switch Backyard
