@@ -139,7 +139,6 @@
     to: home
   - platform: state
     entity_id: sun.sun
-    to: above_horizon
   action:
   - choose:
     - conditions:
@@ -546,7 +545,7 @@
         - light.window_leds
       time: '16:00:00'
       time_before: '20:30:00'
-      time_after: '16:00:00'
+      time_after: '12:00:00'
 - id: '1608362266535'
   alias: System - Volume Control
   description: ''
@@ -556,11 +555,11 @@
       volume_down: '0.2'
       media:
         entity_id:
-        - media_player.keuken_speaker
-        - media_player.woonkamer_speaker
         - media_player.google_hub
-        - media_player.huiskamer
-        - media_player.serre
+        - media_player.kitchen_speaker
+        - media_player.livingroom_speaker
+        - media_player.sonos_livingroom
+        - media_player.sonos_patio
       time_up: 08:30:00
       time_down: '20:30:00'
       volume_up: '0.6'
@@ -618,15 +617,95 @@
       person2: person.annemarie
       min_temp: 20
 - id: '1608791839747'
-  alias: Tag 8 is scanned
+  alias: Tag - Hallway
   description: ''
   trigger:
   - platform: tag
     tag_id: 9fcab2aa-c947-40dc-a1a1-b25958049091
   condition: []
   action:
-  - type: toggle
-    device_id: aac63ad9098611eba8402b3b5a07ae74
+  - service: light.toggle
+    data:
+      brightness: 255
+      color_temp: 225
+      white_value: 255
     entity_id: light.hallway
-    domain: light
+  mode: single
+- id: '1608799719234'
+  alias: Tag 3 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: b903166e-26a6-49fb-863a-be6a7e4e7c5a
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data:
+      code: 2012
+      entity_id: alarm_control_panel.alarmo
+  mode: single
+- id: '1608804805725'
+  alias: System - Alarm Sound
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.alarm_sound
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.alarm_sound
+        state: 'on'
+      sequence:
+      - service: media_player.play_media
+        data:
+          media_content_id: /local/alarm1.mp3
+          media_content_type: music
+        entity_id:
+        - media_player.livingroom_speaker
+        - media_player.kitchen_speaker
+        - media_player.google_hub
+    default:
+    - service: media_player.media_stop
+      data: {}
+      entity_id:
+      - media_player.livingroom_speaker
+      - media_player.kitchen_speaker
+      - media_player.google_hub
+  mode: single
+- id: '1608871383468'
+  alias: Livingroom - Heating Override
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.climate_override
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.climate_override
+        state: 'on'
+      sequence:
+      - service: automation.turn_off
+        data:
+          entity_id: automation.heating_control
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.woonkamer
+          temperature: 25
+          hvac_mode: heat
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.livingroom_temp
+        above: '20'
+      sequence:
+      - service: climate.turn_off
+        data:
+          entity_id: climate.woonkamer
+    default:
+    - service: automation.turn_on
+      data:
+        entity_id: automation.heating_control
   mode: single
