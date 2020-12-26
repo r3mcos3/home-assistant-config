@@ -47,6 +47,10 @@ blueprint:
 
 mode: single
 
+variables:
+  time_up: !input time_up
+  time_down: !input time_down
+
 trigger:
   - platform: time_pattern
     minutes: /30
