@@ -83,48 +83,6 @@
     - delay: 00:05:00
     - service: light.turn_off
       entity_id: light.hallway
-- id: '1605983513461'
-  alias: Livingroom - Heating
-  trigger:
-  - platform: homeassistant
-    event: start
-  - platform: event
-    event_type: automation_reloaded
-  - platform: state
-    entity_id:
-    - sensor.livingroom_temp
-    - person.remco
-    - person.annemarie
-    - input_number.below_temp
-    - input_number.set_temp
-  action:
-  - choose:
-    - conditions:
-      - condition: numeric_state
-        entity_id: sensor.livingroom_temp
-        below: input_number.below_temp
-      - condition: time
-        before: input_datetime.heating_stop
-        after: input_datetime.heating_start
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: person.annemarie
-          state: home
-        - condition: state
-          entity_id: person.remco
-          state: home
-      sequence:
-      - service: climate.set_temperature
-        data:
-          entity_id: climate.woonkamer
-          hvac_mode: heat
-          temperature: '{{ states(''input_number.set_temp'') }}'
-    default:
-    - service: climate.turn_off
-      data:
-        entity_id: climate.woonkamer
-  mode: single
 - id: '1605983816671'
   alias: Multiroom - Home Coming
   trigger:
@@ -139,6 +97,7 @@
     to: home
   - platform: state
     entity_id: sun.sun
+    to: below_horizon
   action:
   - choose:
     - conditions:
@@ -562,7 +521,7 @@
         - media_player.sonos_patio
       time_up: 08:30:00
       time_down: '20:30:00'
-      volume_up: '0.6'
+      volume_up: '0.5'
 - id: '1608373619487'
   alias: System - Download Completed
   description: ''
@@ -600,10 +559,12 @@
       - service: tts.cloud_say
         entity_id: media_player.huiskamer
         data:
+          entity_id: media_player.cc.livingroom
           message: wasmachine is klaar!
           options:
             gender: female
           language: nl-NL
+      finishing_threshold: '5'
 - id: '1608720176984'
   alias: Heating Control
   description: ''
@@ -630,19 +591,6 @@
       color_temp: 225
       white_value: 255
     entity_id: light.hallway
-  mode: single
-- id: '1608799719234'
-  alias: Tag 3 is scanned
-  description: ''
-  trigger:
-  - platform: tag
-    tag_id: b903166e-26a6-49fb-863a-be6a7e4e7c5a
-  condition: []
-  action:
-  - service: alarm_control_panel.alarm_arm_away
-    data:
-      code: 2012
-      entity_id: alarm_control_panel.alarmo
   mode: single
 - id: '1608804805725'
   alias: System - Alarm Sound
@@ -709,3 +657,19 @@
       data:
         entity_id: automation.heating_control
   mode: single
+- id: '1608882695857'
+  alias: Low battery level detection & notification for all battery sensors
+  description: ''
+  use_blueprint:
+    path: Sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      day: '0'
+      exclude0: sensor.in2023_battery_level
+      exclude1: sensor.iphone_van_marietje_battery_level
+      actions:
+      - service: notify.mobile_app_in2023
+        data:
+          title: Low Battery
+          message: 'Low battery warning for: {{sensors}}'
+      threshold: 20
+      time: 09:00:00
