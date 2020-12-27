@@ -657,19 +657,19 @@
       data:
         entity_id: automation.heating_control
   mode: single
-- id: '1608882695857'
-  alias: Low battery level detection & notification for all battery sensors
+- id: '1609067405539'
+  alias: System - Low Battery's
   description: ''
   use_blueprint:
     path: Sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
     input:
       day: '0'
-      exclude0: sensor.in2023_battery_level
-      exclude1: sensor.iphone_van_marietje_battery_level
+      exclude:
+        entity_id:
+        - sensor.iphone_van_marietje_battery_level
+        - sensor.in2023_battery_level
       actions:
       - service: notify.mobile_app_in2023
         data:
-          title: Low Battery
+          title: Low Battery's
           message: 'Low battery warning for: {{sensors}}'
-      threshold: 20
-      time: 09:00:00
