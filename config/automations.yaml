@@ -645,17 +645,22 @@
           temperature: 25
           hvac_mode: heat
     - conditions:
-      - condition: numeric_state
-        entity_id: sensor.livingroom_temp
-        above: '20'
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.livingroom_temp
+          above: '19'
+        - condition: state
+          entity_id: input_boolean.climate_override
+          state: 'off'
       sequence:
       - service: climate.turn_off
         data:
           entity_id: climate.woonkamer
-    default:
-    - service: automation.turn_on
-      data:
+      - service: automation.turn_on
+        data: {}
         entity_id: automation.heating_control
+    default: []
   mode: single
 - id: '1609067405539'
   alias: System - Low Battery's
