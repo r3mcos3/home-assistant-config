@@ -152,16 +152,19 @@
 - id: '1605983936127'
   alias: Multiroom - Lights Off When Away
   trigger:
-  - platform: state
-    entity_id:
-    - person.remco
-    - person.annemarie
-    to: not_home
+  - platform: zone
+    entity_id: person.remco
+    zone: zone.home
+    event: leave
   - platform: state
     entity_id: input_boolean.guest_mode
     to: 'off'
+  - platform: zone
+    entity_id: person.annemarie
+    zone: zone.home
+    event: leave
   action:
-    choose:
+  - choose:
     - conditions:
       - condition: state
         entity_id: group.all_lights
@@ -182,6 +185,7 @@
         data:
           title: Lights Turned Off!!
           message: Home Assistant Turned The Lights Off!!
+  mode: single
 - id: '1605983963164'
   alias: WLED Effect
   trigger:
@@ -521,19 +525,7 @@
         - media_player.sonos_patio
       time_up: 08:30:00
       time_down: '20:30:00'
-      volume_up: '0.5'
-- id: '1608373619487'
-  alias: System - Download Completed
-  description: ''
-  trigger:
-  - platform: event
-    event_type: transmission_downloaded_torrent
-  action:
-  - service: notify.mobile_app_in2023
-    data:
-      title: Torrent completed!
-      message: '{{trigger.event.data.name}}'
-  mode: single
+      volume_up: 0.4
 - id: '1608488532525'
   alias: Patio - Recycle Bin
   description: ''
