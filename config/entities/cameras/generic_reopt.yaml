@@ -1,5 +1,0 @@
----
-platform: generic
-name: ReoPTZ
-still_image_url: !secret image_url
-stream_source: !secret stream_url
