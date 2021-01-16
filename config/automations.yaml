@@ -186,24 +186,6 @@
           title: Lights Turned Off!!
           message: Home Assistant Turned The Lights Off!!
   mode: single
-- id: '1605983963164'
-  alias: WLED Effect
-  trigger:
-  - platform: state
-    entity_id: input_select.wled_effect
-  - platform: state
-    entity_id: input_number.wled_intensity
-  - platform: state
-    entity_id: input_select.wled_palette
-  - platform: state
-    entity_id: input_number.wled_speed
-  - platform: state
-    entity_id: input_boolean.wled_reverse
-  action:
-  - service: script.turn_on
-    data:
-      entity_id: script.wled_effect
-  mode: single
 - id: '1605984035171'
   alias: Misc - Alarm Clock
   trigger:
