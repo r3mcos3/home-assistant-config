@@ -19,6 +19,7 @@ config/image
 config/www
 config/netdaemon
 config/neighbours
+config/node-red
 
 # Specific file ignores
 config/.uuid
