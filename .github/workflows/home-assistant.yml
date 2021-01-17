@@ -19,6 +19,7 @@ jobs:
         uses: frenck/action-yamllint@v1.0.1
 
   remarklint:
+    name: 🧹 remarklint
     runs-on: ubuntu-18.04
     steps:
       - name: ⤵️ Check out configuration from GitHub
