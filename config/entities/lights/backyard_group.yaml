@@ -6,3 +6,5 @@
     - light.barn_light
     - light.small_barn_light
     - light.flood_light
+    - light.barn_led
+    - light.main_switch_backyard
